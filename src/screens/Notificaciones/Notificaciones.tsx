@@ -8,9 +8,13 @@ import { getAvisos } from '@gcMobile/store/Notificaciones/api'
 import { RootState } from '@gcMobile/store'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { colors } from '@gcMobile/theme/default.styles'
+import { useNavigation } from '@react-navigation/native'
+import { VIEWS } from '@gcMobile/navigation/constants'
 
 export const Notificaciones = () => {
     const dispatch = useDispatch()
+    const navigation = useNavigation<any>()
+
     const { avisos } = useSelector((state: RootState) => state.notificacionesReducer)
     const { recintoId } = useSelector((state: RootState) => state.houseReducer)
 
@@ -18,6 +22,10 @@ export const Notificaciones = () => {
         dispatch(clearBadgeCount())
         dispatch(getAvisos(`${recintoId}`) as any)
     }, [])
+
+    const handlePress = (id: string, title: string, body: string) => {
+        navigation.navigate(VIEWS.READ_NOTIFICATION, { id, title, body })
+    }
 
     return (
         <SafeAreaView>
@@ -29,6 +37,7 @@ export const Notificaciones = () => {
                         title={item.titulo}
                         date={item.fecha}
                         body={item.descripcion}
+                        handlePress={() => handlePress(item.id, item.titulo, item.descripcion)}
                     />
                 ))}
             </ScrollView>

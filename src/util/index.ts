@@ -21,10 +21,10 @@ export const formatDate = (date: string) => {
     if (date.includes('T')) {
         const dateNotime = date.split('T')[0]
         const newDate = new Date(dateNotime)
-        return newDate.toLocaleDateString()
+        return newDate.toLocaleDateString('es-MX')
     }
     const newDate = new Date(date)
-    return newDate.toLocaleDateString()
+    return newDate.toLocaleString('es-MX')
 }
 
 export const plateFormat = (plate: string) => {

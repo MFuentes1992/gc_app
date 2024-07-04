@@ -2,10 +2,11 @@ import { colors } from '@gcMobile/theme/default.styles'
 import { ViewStyle } from 'react-native'
 
 export type NotificationItemProps = {
-    id: string
+    id?: string
     title: string
     date: string
-    body: string
+    body?: string
+    handlePress: () => void
 }
 
 export const container: ViewStyle = {

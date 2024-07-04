@@ -5,12 +5,7 @@ import { fonts } from '@gcMobile/theme/default.styles'
 import { useNavigation } from '@react-navigation/native'
 import { VIEWS } from '@gcMobile/navigation/constants'
 
-export const NotificationItem = ({ id, title, date, body }: NotificationItemProps) => {
-    const navigation = useNavigation<any>()
-    const handlePress = () => {
-        navigation.navigate(VIEWS.READ_NOTIFICATION, { id, title, body })
-    }
-
+export const NotificationItem = ({ title, date, handlePress }: NotificationItemProps) => {
     return (
         <TouchableOpacity style={container} onPress={handlePress}>
             <View style={titleContainer}>

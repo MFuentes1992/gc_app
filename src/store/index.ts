@@ -9,6 +9,7 @@ import uiReducer from './UI'
 import tipoIngresoReducer from './TipoIngreso'
 import historicoVisitasReducer from './HistoricVisitas'
 import notificacionesReducer from './Notificaciones'
+import estadoCuenta from './EdoCta'
 
 const persistConfig = {
     storage: AsyncStorage,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     tipoIngresoReducer,
     historicoVisitasReducer,
     notificacionesReducer,
+    estadoCuenta,
 })
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -11,4 +11,5 @@ export const VIEWS = {
     READ_NOTIFICATION: 'ReadNotification',
     PDF_VIEWER: 'PDFViewer',
     ATTACH_IMAGE_VIEWER: 'ImageViewer',
+    EDO_CUENTA: 'EdoCuenta',
 }

@@ -11,6 +11,7 @@ import { ReadNotification } from '@gcMobile/screens/Notificaciones/ReadNotificat
 import { colors } from '@gcMobile/theme/default.styles'
 import { PDFViewer } from '@gcMobile/screens/PDFViewer/PDFViewer'
 import { AttachImageViewer } from '@gcMobile/screens/AttachImageViewer/AttachImageViewer'
+import EdoCuenta from '@gcMobile/screens/Edocuenta'
 
 const NavigationStack = () => {
     const Stack = createStackNavigator()
@@ -49,6 +50,7 @@ const NavigationStack = () => {
                     component={AttachImageViewer}
                     options={{ title: 'Archivo Adjunto' }}
                 />
+                <Stack.Screen name={VIEWS.EDO_CUENTA} component={EdoCuenta} options={{ title: 'Estado de Cuenta' }} />
             </Stack.Group>
         </Stack.Navigator>
     )
