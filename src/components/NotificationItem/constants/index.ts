@@ -6,7 +6,13 @@ export type NotificationItemProps = {
     title: string
     date: string
     body?: string
+    type?: number
     handlePress: () => void
+}
+
+export const AVISOS_TYPE = {
+    NOTIFICACION: 1,
+    ESTADO_CUENTA: 2,
 }
 
 export const container: ViewStyle = {
@@ -24,7 +30,7 @@ export const titleContainer: ViewStyle = {
     justifyContent: 'flex-start',
     padding: 10,
     borderLeftWidth: 7,
-    borderLeftColor: colors.cherry,
+    // borderLeftColor: colors.cherry,
 }
 
 export const dateContainer: ViewStyle = {
@@ -33,5 +39,5 @@ export const dateContainer: ViewStyle = {
     justifyContent: 'flex-start',
     padding: 10,
     borderLeftWidth: 7,
-    borderLeftColor: colors.cherry,
+    // borderLeftColor: colors.cherry,
 }

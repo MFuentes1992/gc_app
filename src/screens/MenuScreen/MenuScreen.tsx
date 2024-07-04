@@ -41,19 +41,6 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                     </View>
                 </View>
             </View>
-            {/** Consulta de notificaciones */}
-            <View style={styles.tenthHeight}>
-                <TouchableOpacity
-                    style={{ flexDirection: 'row' }}
-                    onPress={() => {
-                        dispatch(setMenuOpen(false))
-                        navigation.dispatch(StackActions.replace(VIEWS.NOTIFICACIONES))
-                    }}
-                >
-                    <FontAwesome name="bell-o" style={styles.iconStyles} />
-                    <Text style={styles.textStyles}>Notificaciones</Text>
-                </TouchableOpacity>
-            </View>
             {/** Consulta de Avisos */}
             <View style={styles.tenthHeight}>
                 <TouchableOpacity
@@ -64,7 +51,7 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                     }}
                 >
                     <MaterialCommunityIcons name="file-document-multiple-outline" style={styles.iconStyles} />
-                    <Text style={styles.textStyles}>Avisos</Text>
+                    <Text style={styles.textStyles}>Estados de cuenta</Text>
                 </TouchableOpacity>
             </View>
             {/** Consulta de casas */}

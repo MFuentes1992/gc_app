@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@gcMobile/store'
 import { getEstadosCuenta } from '@gcMobile/store/EdoCta/api'
 import { formatDate } from '@gcMobile/util'
+import { AVISOS_TYPE } from '@gcMobile/components/NotificationItem/constants'
 
 export const EdoCuenta = () => {
     const navigation = useNavigation<any>()
@@ -62,6 +63,7 @@ export const EdoCuenta = () => {
                     key={Math.random().toString(36).substring(7)}
                     title={item.titulo}
                     date={formatDate(item.fecha).substring(0, 10)}
+                    type={AVISOS_TYPE.ESTADO_CUENTA}
                     handlePress={() => handlePress(item.path)}
                 />
             ))}
