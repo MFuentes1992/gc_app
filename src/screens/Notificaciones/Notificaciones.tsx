@@ -64,6 +64,7 @@ export const Notificaciones = () => {
                         title={item.titulo}
                         date={item.fecha}
                         body={item.descripcion}
+                        type={AVISOS_TYPE.NOTIFICACION}
                         handlePress={() => handlePress(item.id, item.titulo, item.descripcion)}
                     />
                 ))}

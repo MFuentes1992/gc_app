@@ -63,7 +63,7 @@ export const EdoCuenta = () => {
                     key={Math.random().toString(36).substring(7)}
                     title={item.titulo}
                     date={formatDate(item.fecha).substring(0, 10)}
-                    type={AVISOS_TYPE.ESTADO_CUENTA}
+                    type={AVISOS_TYPE.AVISO}
                     handlePress={() => handlePress(item.path)}
                 />
             ))}

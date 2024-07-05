@@ -1,6 +1,6 @@
 export const colors = {
     mainBgOpacity: '#5f6a70',
-    green: '#02735E',
+    green: '#1dc33c',
     white: '#fff',
     dropShadow: 'drop-shadow(0px 3px 3px rgba(0,0,0,0.16 ))',
     gray: '#899296',
@@ -15,6 +15,7 @@ export const colors = {
     aqua: '#05ACAF',
     brown: '#995D4A',
     yellow: '#F2A71B',
+    notificationYellow: '#f0ca32',
     lightGray2: '#cecdd4',
     cherry: '#FF004D',
     limeGreen: '#32cd32',

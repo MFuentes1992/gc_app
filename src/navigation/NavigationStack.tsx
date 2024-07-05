@@ -12,6 +12,7 @@ import { colors } from '@gcMobile/theme/default.styles'
 import { PDFViewer } from '@gcMobile/screens/PDFViewer/PDFViewer'
 import { AttachImageViewer } from '@gcMobile/screens/AttachImageViewer/AttachImageViewer'
 import EdoCuenta from '@gcMobile/screens/Edocuenta'
+import { Avisos } from '@gcMobile/screens/Avisos/Avisos'
 
 const NavigationStack = () => {
     const Stack = createStackNavigator()
@@ -38,7 +39,11 @@ const NavigationStack = () => {
                 <Stack.Screen name={VIEWS.QR_DETAILS} component={QRDetails} options={{ title: 'Detalle de QR.' }} />
                 <Stack.Screen name={VIEWS.MENU} component={MenuScreen} options={{ title: '', headerShown: false }} />
                 <Stack.Screen name={VIEWS.HOUSE_MANAGEMENT} component={HouseManagement} options={{ title: '' }} />
-                <Stack.Screen name={VIEWS.NOTIFICACIONES} component={Notificaciones} options={{ title: 'Avisos.' }} />
+                <Stack.Screen
+                    name={VIEWS.NOTIFICACIONES}
+                    component={Notificaciones}
+                    options={{ title: 'Notificaciones.' }}
+                />
                 <Stack.Screen
                     name={VIEWS.READ_NOTIFICATION}
                     component={ReadNotification}
@@ -51,6 +56,7 @@ const NavigationStack = () => {
                     options={{ title: 'Archivo Adjunto' }}
                 />
                 <Stack.Screen name={VIEWS.EDO_CUENTA} component={EdoCuenta} options={{ title: 'Estado de Cuenta' }} />
+                <Stack.Screen name={VIEWS.AVISOS} component={Avisos} options={{ title: 'Avisos' }} />
             </Stack.Group>
         </Stack.Navigator>
     )

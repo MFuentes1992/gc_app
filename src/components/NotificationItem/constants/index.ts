@@ -6,13 +6,20 @@ export type NotificationItemProps = {
     title: string
     date: string
     body?: string
-    type?: number
+    type: number
     handlePress: () => void
 }
 
 export const AVISOS_TYPE = {
-    NOTIFICACION: 1,
-    ESTADO_CUENTA: 2,
+    AVISO: 1,
+    NOTIFICACION: 2,
+    ESTADO_CUENTA: 3,
+}
+
+export const RIBBON_COLOR: { [key: string]: string } = {
+    1: colors.notificationYellow,
+    2: colors.green,
+    3: colors.cherry,
 }
 
 export const container: ViewStyle = {

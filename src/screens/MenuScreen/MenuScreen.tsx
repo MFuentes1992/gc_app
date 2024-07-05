@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesome } from '@expo/vector-icons'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import { View, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-elements'
 import { MenuProps, styles } from './constants'
@@ -41,7 +41,7 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                     </View>
                 </View>
             </View>
-            {/** Consulta de Avisos */}
+            {/** Consulta de Edo Cuenta */}
             <View style={styles.tenthHeight}>
                 <TouchableOpacity
                     style={{ flexDirection: 'row' }}
@@ -52,6 +52,19 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                 >
                     <MaterialCommunityIcons name="file-document-multiple-outline" style={styles.iconStyles} />
                     <Text style={styles.textStyles}>Estados de cuenta</Text>
+                </TouchableOpacity>
+            </View>
+            {/** Consulta de Edo Cuenta */}
+            <View style={styles.tenthHeight}>
+                <TouchableOpacity
+                    style={{ flexDirection: 'row' }}
+                    onPress={() => {
+                        dispatch(setMenuOpen(false))
+                        navigation.dispatch(StackActions.replace(VIEWS.AVISOS as never))
+                    }}
+                >
+                    <Ionicons name="megaphone-outline" style={styles.iconStyles} />
+                    <Text style={styles.textStyles}>Avisos</Text>
                 </TouchableOpacity>
             </View>
             {/** Consulta de casas */}
@@ -71,14 +84,14 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
             <View style={styles.tenthHeight}>
                 <TouchableOpacity style={{ flexDirection: 'row' }}>
                     <MaterialCommunityIcons name="form-textbox-password" style={styles.iconStyles} />
-                    <Text style={styles.textStyles}>Cambiar contrasena</Text>
+                    <Text style={styles.textStyles}>Cambiar contraseña</Text>
                 </TouchableOpacity>
             </View>
             {/** Cerrar sesion */}
             <View style={styles.tenthHeight}>
                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={handleLogout}>
                     <FontAwesome name="arrow-circle-o-right" style={styles.iconStyles} />
-                    <Text style={styles.textStyles}>Cerrar sesion</Text>
+                    <Text style={styles.textStyles}>Cerrar sesión</Text>
                 </TouchableOpacity>
             </View>
         </View>
