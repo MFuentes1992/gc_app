@@ -1,8 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import LoginScreen from '@gcMobile/screens/Login'
 import Form from '@gcMobile/components/Form'
 import VisitsScreen from '@gcMobile/screens/VisitsScreen'
-import { MenuScreen } from '@gcMobile/screens/MenuScreen/MenuScreen'
 import { HouseManagement } from '@gcMobile/screens/HouseScreen/HouseManagement'
 import { QRDetails } from '@gcMobile/screens/QRDetails/QRDetails'
 import { VIEWS } from '@gcMobile/navigation/constants'
@@ -13,52 +12,37 @@ import { PDFViewer } from '@gcMobile/screens/PDFViewer/PDFViewer'
 import { AttachImageViewer } from '@gcMobile/screens/AttachImageViewer/AttachImageViewer'
 import EdoCuenta from '@gcMobile/screens/Edocuenta'
 import { Avisos } from '@gcMobile/screens/Avisos/Avisos'
+import { MenuScreen } from '@gcMobile/screens/MenuScreen/MenuScreen'
 
 const NavigationStack = () => {
-    const Stack = createStackNavigator()
+    const Drawer = createDrawerNavigator()
 
     return (
-        <Stack.Navigator>
-            <Stack.Group
-                screenOptions={{
-                    headerStyle: {
-                        height: 60,
-                        borderBottomWidth: 1,
-                        borderBottomColor: colors.lightGray,
-                    },
-                    headerTitleStyle: { fontFamily: 'Roboto', fontSize: 16, color: colors.darkGray, marginTop: 0 },
-                }}
-            >
-                <Stack.Screen name={VIEWS.LOGIN} component={LoginScreen} options={{ title: '', headerShown: false }} />
-                <Stack.Screen name={VIEWS.CREATE_VISITA} component={Form} options={{ title: '', headerShown: false }} />
-                <Stack.Screen
-                    name={VIEWS.VISITAS}
-                    component={VisitsScreen}
-                    options={{ title: 'Control de visitas.', headerShown: false }}
-                />
-                <Stack.Screen name={VIEWS.QR_DETAILS} component={QRDetails} options={{ title: 'Detalle de QR.' }} />
-                <Stack.Screen name={VIEWS.MENU} component={MenuScreen} options={{ title: '', headerShown: false }} />
-                <Stack.Screen name={VIEWS.HOUSE_MANAGEMENT} component={HouseManagement} options={{ title: '' }} />
-                <Stack.Screen
-                    name={VIEWS.NOTIFICACIONES}
-                    component={Notificaciones}
-                    options={{ title: 'Notificaciones.' }}
-                />
-                <Stack.Screen
-                    name={VIEWS.READ_NOTIFICATION}
-                    component={ReadNotification}
-                    options={{ title: 'Consulta Aviso.' }}
-                />
-                <Stack.Screen name={VIEWS.PDF_VIEWER} component={PDFViewer} options={{ title: 'Archivo Adjunto' }} />
-                <Stack.Screen
-                    name={VIEWS.ATTACH_IMAGE_VIEWER}
-                    component={AttachImageViewer}
-                    options={{ title: 'Archivo Adjunto' }}
-                />
-                <Stack.Screen name={VIEWS.EDO_CUENTA} component={EdoCuenta} options={{ title: 'Estado de Cuenta' }} />
-                <Stack.Screen name={VIEWS.AVISOS} component={Avisos} options={{ title: 'Avisos' }} />
-            </Stack.Group>
-        </Stack.Navigator>
+        <Drawer.Navigator
+            drawerContent={() => <MenuScreen />}
+            backBehavior="initialRoute"
+            initialRouteName={VIEWS.VISITAS}
+        >
+            <Drawer.Screen name={VIEWS.LOGIN} component={LoginScreen} options={{ headerShown: false }} />
+            <Drawer.Screen name={VIEWS.CREATE_VISITA} component={Form} options={{ headerShown: false }} />
+            <Drawer.Screen name={VIEWS.VISITAS} component={VisitsScreen} options={{ headerShown: false }} />
+            <Drawer.Screen name={VIEWS.QR_DETAILS} component={QRDetails} options={{ headerShown: false }} />
+            <Drawer.Screen name={VIEWS.HOUSE_MANAGEMENT} component={HouseManagement} options={{ headerShown: false }} />
+            <Drawer.Screen name={VIEWS.NOTIFICACIONES} component={Notificaciones} options={{ headerShown: false }} />
+            <Drawer.Screen
+                name={VIEWS.READ_NOTIFICATION}
+                component={ReadNotification}
+                options={{ headerShown: false }}
+            />
+            <Drawer.Screen name={VIEWS.PDF_VIEWER} component={PDFViewer} options={{ headerShown: false }} />
+            <Drawer.Screen
+                name={VIEWS.ATTACH_IMAGE_VIEWER}
+                component={AttachImageViewer}
+                options={{ headerShown: false }}
+            />
+            <Drawer.Screen name={VIEWS.EDO_CUENTA} component={EdoCuenta} options={{ headerShown: false }} />
+            <Drawer.Screen name={VIEWS.AVISOS} component={Avisos} options={{ headerShown: false }} />
+        </Drawer.Navigator>
     )
 }
 

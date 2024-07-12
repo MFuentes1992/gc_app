@@ -7,10 +7,13 @@ import { visitsStyle } from './constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@gcMobile/store'
 import { getCatalogTipoVisitas } from '@gcMobile/store/TipoVisitas/api'
+import { isEmpty } from 'lodash'
+import { VIEWS } from '@gcMobile/navigation/constants'
 
 const VisitsScreen = ({ navigation }: any) => {
     const dispatch = useDispatch()
     const { catalogVisitas } = useSelector((state: RootState) => state.tipoVisitas)
+    const { access_token } = useSelector((state: RootState) => state.userReducer)
 
     const [selectedTab, setSelectedTab] = useState<string>()
     const getSelectedValue = (value: string) => {
@@ -20,6 +23,7 @@ const VisitsScreen = ({ navigation }: any) => {
     useEffect(() => {
         if (catalogVisitas.length === 0 || catalogVisitas === undefined)
             dispatch(getCatalogTipoVisitas() as unknown as any)
+        if (isEmpty(access_token)) navigation.navigate(VIEWS.LOGIN as never)
     }, [catalogVisitas])
 
     return (
@@ -31,7 +35,7 @@ const VisitsScreen = ({ navigation }: any) => {
                     flex: 1,
                 }}
             >
-                <VisitorControlScreen navigation={navigation} filters={catalogVisitas || []} />
+                {access_token !== '' && <VisitorControlScreen navigation={navigation} filters={catalogVisitas || []} />}
             </View>
             <View
                 style={
@@ -39,7 +43,7 @@ const VisitsScreen = ({ navigation }: any) => {
                     !selectedTab || selectedTab === 'VisitorControl' ? visitsStyle.hidden : undefined
                 }
             >
-                <VisitHistoryScreen />
+                {access_token !== '' && <VisitHistoryScreen />}
             </View>
         </View>
     )

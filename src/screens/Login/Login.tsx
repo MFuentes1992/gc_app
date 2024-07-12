@@ -5,7 +5,7 @@ import InputPassword from '../../components/Inputs/InputPassword'
 import Button from '../../components/Button'
 import * as Notifications from 'expo-notifications'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { StackActions } from '@react-navigation/native'
+import { DrawerActions, StackActions, useNavigation } from '@react-navigation/native'
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification'
 import {
     loginScreenStyles,
@@ -50,8 +50,9 @@ type LocalStoredData = {
     recintoId?: string
 }
 
-export default function LoginScreen({ navigation }: INavigationProps) {
+export default function LoginScreen() {
     const dispatch = useDispatch()
+    const navigation = useNavigation()
     const ref = React.useRef<any>()
     const { emailStyles, setEmailStyles, passwordStyles, setPasswordStyles, clicked, setClicked } = useStyles()
     const { isLoading } = useSelector((state: RootState) => state.uiReducer)
@@ -190,7 +191,7 @@ export default function LoginScreen({ navigation }: INavigationProps) {
                 recintoId,
             })
             dispatch(setLoading(false))
-            navigation.dispatch(StackActions.replace(VIEWS.VISITAS))
+            navigation.navigate(VIEWS.VISITAS as never)
         } catch (error) {
             console.error('Error Login ======>', error)
             dispatch(setLoading(false))
@@ -215,7 +216,7 @@ export default function LoginScreen({ navigation }: INavigationProps) {
                         </View>
                         <View style={loginScreenStyles.row}>
                             <InputComponent
-                                textInput="Email Adress"
+                                textInput="Email"
                                 styles={emailStyles.email}
                                 regularExpression={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
                                 regexValidation={(value) =>
@@ -230,7 +231,7 @@ export default function LoginScreen({ navigation }: INavigationProps) {
                         </View>
                         <View style={loginScreenStyles.row}>
                             <InputPassword
-                                textInput="Password"
+                                textInput="Contraseña"
                                 styles={passwordStyles.password}
                                 regexValidation={(value) =>
                                     setPasswordStyles({
@@ -245,7 +246,7 @@ export default function LoginScreen({ navigation }: INavigationProps) {
                         </View>
                         <View style={loginScreenStyles.row}>
                             <InputPassword
-                                textInput="Code"
+                                textInput="Código"
                                 styles={colors.gray}
                                 isClicked={clicked}
                                 passwordValue={(value: string) => setCustomerCode(value)}
@@ -254,7 +255,7 @@ export default function LoginScreen({ navigation }: INavigationProps) {
                         <View style={loginScreenStyles.row}>
                             <Button
                                 styles={buttonComponentStyles.button}
-                                textButton="Sign In"
+                                textButton="Iniciar sesión"
                                 onPress={() => {
                                     if (!emailStyles.regexState) {
                                         dispatch(setLoading(false))
@@ -278,13 +279,6 @@ export default function LoginScreen({ navigation }: INavigationProps) {
                                     }
                                 }}
                             />
-                        </View>
-                        <View style={loginScreenStyles.rowText}>
-                            <Text style={loginScreenStyles.label}>New user? </Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                                <Text style={loginScreenStyles.label}>Sign up</Text>
-                            </TouchableOpacity>
-                            <Text style={loginScreenStyles.label}> here</Text>
                         </View>
                         <View style={loginScreenStyles.rowText}>
                             <Text style={loginScreenStyles.label}>V1.1</Text>

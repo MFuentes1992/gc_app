@@ -35,18 +35,18 @@ export const styles = StyleSheet.create({
     },
     textStyles: {
         marginLeft: '5%',
-        fontSize: 18,
+        fontSize: 14,
         color: colors.gray,
     },
     iconStyles: {
         marginLeft: '2%',
-        fontSize: 24,
+        fontSize: 20,
         color: colors.gray,
     },
     tinyText: {
         marginTop: '1%',
         marginLeft: '5%',
         fontSize: 12,
-        fontWeight: 'bold',
+        fontWeight: 'normal',
     },
 })

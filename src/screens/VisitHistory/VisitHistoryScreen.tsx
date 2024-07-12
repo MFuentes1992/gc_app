@@ -20,24 +20,21 @@ export default function VisitHistoryScreen() {
     }, [currentHouseId, email])
 
     return (
-        <View style={visitorHistoryStyles.background}>
-            <SafeAreaView style={visitorHistoryStyles.container}>
-                <ScrollView contentContainerStyle={{ paddingBottom: 10 }}>
-                    {visitas?.map((visita) => (
-                        <HistoricCard
-                            idVisita={visita?.idVisita || ''}
-                            visitaUniqueId={visita?.idVisita || ''}
-                            nombreVisita={''}
-                            fechaVisita={visita?.fechaVisita || ''}
-                            horaVisita={visita?.horaVisita || ''}
-                            tipoVisita={visita?.tipoVisita || ''}
-                            tipoIngreso={visita?.tipoIngreso || ''}
-                            vehiculos={visita?.vehiculos || []}
-                            casa={visita?.casa || ''}
-                        />
-                    ))}
-                </ScrollView>
-            </SafeAreaView>
-        </View>
+        <ScrollView contentContainerStyle={{ height: 'auto', padding: 10 }}>
+            {visitas?.map((visita) => (
+                <HistoricCard
+                    idVisita={visita?.idVisita || ''}
+                    visitaUniqueId={visita?.idVisita || ''}
+                    nombreVisita={''}
+                    fechaVisita={visita?.fechaVisita || ''}
+                    horaVisita={visita?.horaVisita || ''}
+                    tipoVisita={visita?.tipoVisita || ''}
+                    tipoIngreso={visita?.tipoIngreso || ''}
+                    vehiculos={visita?.vehiculos || []}
+                    casa={visita?.casa || ''}
+                />
+            ))}
+            <View style={{ height: 100 }}></View>
+        </ScrollView>
     )
 }

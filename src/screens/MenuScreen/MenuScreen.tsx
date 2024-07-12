@@ -9,15 +9,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@gcMobile/store'
 import { cleanUserData, setUserData } from '@gcMobile/store/User'
 import { VIEWS } from '@gcMobile/navigation/constants'
-import { StackActions } from '@react-navigation/native'
+import { DrawerActions, StackActions, useNavigation } from '@react-navigation/native'
 import { setMenuOpen } from '@gcMobile/store/UI'
+import { DrawerContentScrollView } from '@react-navigation/drawer'
 
-export const MenuScreen = ({ navigation }: MenuProps) => {
+export const MenuScreen = () => {
     const { currentHouseInstalacion, currentHouseManzana, currentResidence } = useSelector(
         (state: RootState) => state.houseReducer
     )
 
     const dispatch = useDispatch()
+    const navigation = useNavigation()
 
     const handleLogout = async () => {
         const value = await logout()
@@ -27,11 +29,11 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
     }
 
     return (
-        <View style={styles.container}>
+        <DrawerContentScrollView style={styles.container}>
             {/** Title row */}
             <View style={styles.residenceContainer}>
                 <View style={{ flexDirection: 'row' }}>
-                    <FontAwesome name="user-circle-o" style={styles.iconStyles} />
+                    {/* <FontAwesome name="user-circle-o" style={styles.iconStyles} /> */}
                     <View style={{ flexDirection: 'column' }}>
                         <Text style={styles.textStyles}>Asociacion de condominos - {currentResidence}</Text>
                         <View style={{ flexDirection: 'row' }}>
@@ -47,7 +49,9 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                     style={{ flexDirection: 'row' }}
                     onPress={() => {
                         dispatch(setMenuOpen(false))
-                        navigation.dispatch(StackActions.replace(VIEWS.EDO_CUENTA as never))
+                        navigation.navigate({
+                            name: VIEWS.EDO_CUENTA,
+                        } as never)
                     }}
                 >
                     <MaterialCommunityIcons name="file-document-multiple-outline" style={styles.iconStyles} />
@@ -60,7 +64,7 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                     style={{ flexDirection: 'row' }}
                     onPress={() => {
                         dispatch(setMenuOpen(false))
-                        navigation.dispatch(StackActions.replace(VIEWS.AVISOS as never))
+                        navigation.navigate(VIEWS.AVISOS as never)
                     }}
                 >
                     <Ionicons name="megaphone-outline" style={styles.iconStyles} />
@@ -73,7 +77,7 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                     style={{ flexDirection: 'row' }}
                     onPress={() => {
                         dispatch(setMenuOpen(false))
-                        navigation.dispatch(StackActions.replace(VIEWS.HOUSE_MANAGEMENT as never))
+                        navigation.navigate(VIEWS.HOUSE_MANAGEMENT as never)
                     }}
                 >
                     <FontAwesome name="building-o" style={styles.iconStyles} />
@@ -94,6 +98,6 @@ export const MenuScreen = ({ navigation }: MenuProps) => {
                     <Text style={styles.textStyles}>Cerrar sesión</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </DrawerContentScrollView>
     )
 }

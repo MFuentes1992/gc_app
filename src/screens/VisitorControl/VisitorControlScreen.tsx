@@ -70,7 +70,7 @@ export default function VisitorControlScreen({ navigation, filters }: VisitorCon
                         padding: '2%',
                     }}
                 >
-                    {visitas.map((data: any, index: number) => (
+                    {visitas?.map((data: any, index: number) => (
                         <View style={{ width: '100%' }} key={data?.uniqueID}>
                             <Card {...data} index={index} />
                         </View>
