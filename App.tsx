@@ -31,7 +31,7 @@ export default function App() {
                         <NavigationContainer>
                             <Header
                                 leftComponent={<Menu />}
-                                rightComponent={<NotificationBadge />}
+                                // rightComponent={<NotificationBadge />}
                                 containerStyle={{
                                     backgroundColor: colors.blue,
                                     justifyContent: 'space-around',

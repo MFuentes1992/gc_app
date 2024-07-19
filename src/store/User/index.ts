@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserData } from './types'
+import { set } from 'lodash'
 
 const initialState: UserData = {
     access_token: '',
     id_instalacion: '',
+    id_profile: 0,
     email: '',
     name: '',
     id: '',
@@ -29,11 +31,15 @@ const userSlice = createSlice({
             state.name = ''
             state.id = ''
             state.recintoId = ''
+            state.id_profile = 0
+        },
+        setProfileId: (state, action: PayloadAction<number>) => {
+            state.id_profile = action.payload
         },
     },
 })
 
-export const { setUserData, cleanUserData } = userSlice.actions
+export const { setUserData, cleanUserData, setProfileId } = userSlice.actions
 export default userSlice.reducer
 
 // ...

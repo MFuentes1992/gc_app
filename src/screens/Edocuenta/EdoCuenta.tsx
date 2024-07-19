@@ -26,10 +26,10 @@ export const EdoCuenta = () => {
     const [edoCuenta, setEdoCuenta] = React.useState<EdoCuentaProps[]>([])
 
     useEffect(() => {
-        if (currentHouseId) {
+        if (![''].includes(userId)) {
             dispatch(getEstadosCuenta(userId, currentHouseId.toString()) as any)
         }
-    }, [])
+    }, [userId, currentHouseId])
 
     useEffect(() => {
         if (avisos.length > 0) {

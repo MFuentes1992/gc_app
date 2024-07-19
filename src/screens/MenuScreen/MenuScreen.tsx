@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesome } from '@expo/vector-icons'
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { View, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-elements'
 import { MenuProps, styles } from './constants'
@@ -12,17 +12,22 @@ import { VIEWS } from '@gcMobile/navigation/constants'
 import { DrawerActions, StackActions, useNavigation } from '@react-navigation/native'
 import { setMenuOpen } from '@gcMobile/store/UI'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { PROFILES } from '@gcMobile/util'
 
 export const MenuScreen = () => {
     const { currentHouseInstalacion, currentHouseManzana, currentResidence } = useSelector(
         (state: RootState) => state.houseReducer
     )
 
+    const { id_profile } = useSelector((state: RootState) => state.userReducer)
+
     const dispatch = useDispatch()
     const navigation = useNavigation()
 
     const handleLogout = async () => {
         const value = await logout()
+        AsyncStorage.clear()
         dispatch(cleanUserData())
         dispatch(setMenuOpen(false))
         if (value) navigation.navigate(VIEWS.LOGIN as never)
@@ -44,21 +49,40 @@ export const MenuScreen = () => {
                 </View>
             </View>
             {/** Consulta de Edo Cuenta */}
-            <View style={styles.tenthHeight}>
-                <TouchableOpacity
-                    style={{ flexDirection: 'row' }}
-                    onPress={() => {
-                        dispatch(setMenuOpen(false))
-                        navigation.navigate({
-                            name: VIEWS.EDO_CUENTA,
-                        } as never)
-                    }}
-                >
-                    <MaterialCommunityIcons name="file-document-multiple-outline" style={styles.iconStyles} />
-                    <Text style={styles.textStyles}>Estados de cuenta</Text>
-                </TouchableOpacity>
-            </View>
-            {/** Consulta de Edo Cuenta */}
+            {[`${PROFILES.OWNER}`].includes(`${id_profile}`) && (
+                <View style={styles.tenthHeight}>
+                    <TouchableOpacity
+                        style={{ flexDirection: 'row' }}
+                        onPress={() => {
+                            dispatch(setMenuOpen(false))
+                            navigation.navigate({
+                                name: VIEWS.EDO_CUENTA,
+                            } as never)
+                        }}
+                    >
+                        <MaterialCommunityIcons name="file-document-multiple-outline" style={styles.iconStyles} />
+                        <Text style={styles.textStyles}>Estados de cuenta</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+            {/** Consulta de Recibos */}
+            {[`${PROFILES.OWNER}`].includes(`${id_profile}`) && (
+                <View style={styles.tenthHeight}>
+                    <TouchableOpacity
+                        style={{ flexDirection: 'row' }}
+                        onPress={() => {
+                            dispatch(setMenuOpen(false))
+                            navigation.navigate({
+                                name: VIEWS.RECIBOS,
+                            } as never)
+                        }}
+                    >
+                        <MaterialCommunityIcons name="credit-card-edit-outline" style={styles.iconStyles} />
+                        <Text style={styles.textStyles}>Recibos</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+            {/** Consulta de Avisos */}
             <View style={styles.tenthHeight}>
                 <TouchableOpacity
                     style={{ flexDirection: 'row' }}

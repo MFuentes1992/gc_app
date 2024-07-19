@@ -16,8 +16,10 @@ export const Avisos = () => {
     const { recintoId } = useSelector((state: RootState) => state.houseReducer)
 
     useEffect(() => {
-        dispatch(getAvisos(`${recintoId}`) as any)
-    }, [])
+        if (![''].includes(recintoId.toString())) {
+            dispatch(getAvisos(`${recintoId}`) as any)
+        }
+    }, [recintoId])
 
     const handlePress = (id: string, title: string, body: string) => {
         navigation.navigate(VIEWS.READ_NOTIFICATION, { id, title, body })

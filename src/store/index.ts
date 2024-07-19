@@ -10,6 +10,7 @@ import tipoIngresoReducer from './TipoIngreso'
 import historicoVisitasReducer from './HistoricVisitas'
 import notificacionesReducer from './Notificaciones'
 import estadoCuenta from './EdoCta'
+import recibos from './Recibos'
 
 const persistConfig = {
     storage: AsyncStorage,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     historicoVisitasReducer,
     notificacionesReducer,
     estadoCuenta,
+    recibos,
 })
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer)

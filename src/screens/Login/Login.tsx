@@ -30,6 +30,7 @@ import { registerDeviceId } from '@gcMobile/store/Notificaciones/api'
 import { registerForPushNotificationsAsync } from '@gcMobile/util/'
 import { getRecintoId } from '@gcMobile/store/Houses/api'
 import { addBadgeCount } from '@gcMobile/store/Notificaciones'
+import { getUserProfile } from '@gcMobile/store/User/api'
 
 interface INavigationProps {
     navigation: any
@@ -110,6 +111,7 @@ export default function LoginScreen() {
             .catch((error: any) => {
                 console.error(error)
             })
+
         dispatch(
             setUserData({
                 access_token: data.access_token,
@@ -118,6 +120,7 @@ export default function LoginScreen() {
                 name: data.userName,
                 id: data.userId,
                 recintoId: data.recintoId || '0',
+                id_profile: 0, // -- User profile is not set here.
             })
         )
         dispatch(setRecintoId(Number.parseInt(data.recintoId || '0', 10)))
@@ -178,6 +181,9 @@ export default function LoginScreen() {
                 return
             }
             const recintoId = await queryInstalaciones(instalaciones)
+
+            // -- Get and set user profile
+            dispatch(getUserProfile(email) as any)
 
             saveIntoAsyncStorage({
                 access_token,

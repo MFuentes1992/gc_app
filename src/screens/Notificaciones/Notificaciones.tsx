@@ -26,10 +26,12 @@ export const Notificaciones = () => {
     const userId = useSelector((state: RootState) => state.userReducer.id)
 
     useEffect(() => {
-        dispatch(clearBadgeCount())
-        dispatch(getAvisos(`${recintoId}`) as any)
-        dispatch(getEstadosCuenta(userId, currentHouseId.toString()) as any)
-    }, [])
+        if (![''].includes(userId)) {
+            dispatch(clearBadgeCount())
+            dispatch(getAvisos(`${recintoId}`) as any)
+            dispatch(getEstadosCuenta(userId, currentHouseId.toString()) as any)
+        }
+    }, [userId, currentHouseId])
 
     const handlePress = (id: string, title: string, body: string) => {
         navigation.navigate(VIEWS.READ_NOTIFICATION, { id, title, body })
@@ -64,7 +66,7 @@ export const Notificaciones = () => {
                         title={item.titulo}
                         date={item.fecha}
                         body={item.descripcion}
-                        type={AVISOS_TYPE.NOTIFICACION}
+                        type={AVISOS_TYPE.ESTADO_CUENTA}
                         handlePress={() => handlePress(item.id, item.titulo, item.descripcion)}
                     />
                 ))}

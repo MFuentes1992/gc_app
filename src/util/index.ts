@@ -157,3 +157,7 @@ export const onShareFile = async (uri: string) => {
         console.log(error)
     }
 }
+
+export const PROFILES = {
+    OWNER: 2,
+}

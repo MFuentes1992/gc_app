@@ -44,7 +44,8 @@ export const HouseManagement = () => {
                             getRecintoId(house.id)
                                 .then((raw) => raw.json())
                                 .then((data) => {
-                                    dispatch(setRecintoId(data.id_recinto))
+                                    const [payload] = data
+                                    dispatch(setRecintoId(payload.id_recinto as number))
                                 })
                             dispatch(
                                 setCurrentHouseInfo({

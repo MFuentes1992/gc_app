@@ -13,4 +13,5 @@ export const VIEWS = {
     ATTACH_IMAGE_VIEWER: 'ImageViewer',
     EDO_CUENTA: 'EdoCuenta',
     AVISOS: 'Avisos',
+    RECIBOS: 'Recibos',
 }
