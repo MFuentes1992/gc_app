@@ -35,7 +35,7 @@ export default function App() {
                                 containerStyle={{
                                     backgroundColor: colors.blue,
                                     justifyContent: 'space-around',
-                                    height: 90,
+                                    height: 110, // -- IOS required
                                 }}
                                 centerComponent={{
                                     text: 'GESTIÓN Y CONTROL',

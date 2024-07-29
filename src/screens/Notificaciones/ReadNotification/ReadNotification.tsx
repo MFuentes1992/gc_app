@@ -56,7 +56,8 @@ export const ReadNotification = ({ route, navigation }: any) => {
         if (fileName.match(imageRegex)) {
             navigation.navigate(VIEWS.ATTACH_IMAGE_VIEWER, { url: `${base_web_server}${attachment}` })
         } else if (uri.match(docRegex) && base64Uri !== '') {
-            navigation.navigate(VIEWS.PDF_VIEWER, { uri: base64Uri })
+            // navigation.navigate(VIEWS.PDF_VIEWER, { uri: base64Uri })-- Disabled for IOS
+            onShareFile(uri)
         }
     }
 
