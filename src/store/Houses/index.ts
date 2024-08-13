@@ -9,6 +9,7 @@ const initialState: HousesSlice = {
     currentHouseId: 0,
     currentHouseInstalacion: '',
     currentHouseManzana: '',
+    recintoImageUrl: '',
 }
 
 const houseSlice = createSlice({
@@ -25,12 +26,14 @@ const houseSlice = createSlice({
                 currentResidence: string
                 currentHouseInstalacion: string
                 currentHouseManzana: string
+                recintoImageUrl: string
             }>
         ) => {
             state.currentResidence = action.payload.currentResidence
             state.currentHouseId = action.payload.currentHouseId
             state.currentHouseInstalacion = action.payload.currentHouseInstalacion
             state.currentHouseManzana = action.payload.currentHouseManzana
+            state.recintoImageUrl = action.payload.recintoImageUrl
         },
         setRecintoId: (state, action: PayloadAction<number>) => {
             state.recintoId = action.payload

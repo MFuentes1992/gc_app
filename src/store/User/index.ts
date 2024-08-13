@@ -10,6 +10,7 @@ const initialState: UserData = {
     name: '',
     id: '',
     recintoId: '',
+    pictureUrl: 'https://via.placeholder.com/150',
 }
 
 const userSlice = createSlice({
@@ -32,9 +33,11 @@ const userSlice = createSlice({
             state.id = ''
             state.recintoId = ''
             state.id_profile = 0
+            state.pictureUrl = ''
         },
-        setProfileId: (state, action: PayloadAction<number>) => {
-            state.id_profile = action.payload
+        setProfileId: (state, action: PayloadAction<{ id_profile: number; pictureUrl: string }>) => {
+            state.id_profile = action.payload.id_profile
+            state.pictureUrl = action.payload.pictureUrl
         },
     },
 })

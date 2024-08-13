@@ -13,6 +13,7 @@ import { colors } from '@gcMobile/theme/default.styles'
 import { store, persistor } from '@gcMobile/store'
 import Loader from '@gcMobile/components/Loader'
 import { NotificationBadge } from '@gcMobile/components/NotificationsBadge/NotificationBadge'
+import { ProfilePicture } from '@gcMobile/components/ProfilePicture/ProfilePicture'
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -31,14 +32,14 @@ export default function App() {
                         <NavigationContainer>
                             <Header
                                 leftComponent={<Menu />}
-                                // rightComponent={<NotificationBadge />}
+                                rightComponent={<ProfilePicture />}
                                 containerStyle={{
                                     backgroundColor: colors.blue,
                                     justifyContent: 'space-around',
                                     height: 90,
                                 }}
                                 centerComponent={{
-                                    text: 'GESTIÓN Y CONTROL',
+                                    text: 'Gestion Comunidad',
                                     style: { color: '#fff', marginTop: '3%', fontWeight: 'bold' },
                                 }}
                             />

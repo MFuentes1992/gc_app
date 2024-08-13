@@ -120,7 +120,9 @@ export default function LoginScreen() {
                 name: data.userName,
                 id: data.userId,
                 recintoId: data.recintoId || '0',
-                id_profile: 0, // -- User profile is not set here.
+                id_profile: 0,
+                pictureUrl: '',
+                // -- User profile and picture is not set here.
             })
         )
         dispatch(setRecintoId(Number.parseInt(data.recintoId || '0', 10)))
@@ -142,6 +144,7 @@ export default function LoginScreen() {
                     currentResidence: defaultHouse.residencial || '',
                     currentHouseInstalacion: defaultHouse.num_int || '',
                     currentHouseManzana: defaultHouse.manzana || '',
+                    recintoImageUrl: defaultHouse.logo || 'https://via.placeholder.com/150',
                 })
             )
             return res[0]?.id_recinto
@@ -197,7 +200,7 @@ export default function LoginScreen() {
                 recintoId,
             })
             dispatch(setLoading(false))
-            navigation.navigate(VIEWS.VISITAS as never)
+            navigation.navigate(VIEWS.HOME as never)
         } catch (error) {
             console.error('Error Login ======>', error)
             dispatch(setLoading(false))

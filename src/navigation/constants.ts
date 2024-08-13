@@ -2,6 +2,7 @@ import { PDFViewer } from '@gcMobile/screens/PDFViewer/PDFViewer'
 
 export const VIEWS = {
     LOGIN: 'Login',
+    HOME: 'Home',
     CREATE_VISITA: 'Form',
     VISITAS: 'Visits',
     QR_DETAILS: 'QRDetails',

@@ -55,7 +55,7 @@ export default function VisitorControlScreen({ navigation, filters }: VisitorCon
                     flexDirection: 'row-reverse',
                 }}
             >
-                <CircularButton styles={circularBtnStyles.container} window={'Form'} icon="plus" />
+                <CircularButton styles={circularBtnStyles.container} window={'Form'} icon="plus" color="white" />
             </View>
             <SafeAreaView
                 style={{

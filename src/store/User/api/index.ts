@@ -11,7 +11,12 @@ export const getUserProfile = (email: string) => async (dispatch: any) => {
         const response = await fetch(url)
         const data = await response.json()
         const [dataProfile] = data.result
-        dispatch(setProfileId(dataProfile.id_profile as number))
+        dispatch(
+            setProfileId({
+                id_profile: dataProfile.id_profile,
+                pictureUrl: dataProfile.foto,
+            })
+        )
     } catch (error) {
         Toast.show({
             title: 'Error',

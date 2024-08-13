@@ -8,9 +8,13 @@ import { setCurrentHouseInfo, setRecintoId } from '@gcMobile/store/Houses'
 import { Text } from 'react-native-elements'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { getRecintoId } from '@gcMobile/store/Houses/api'
+import { useNavigation } from '@react-navigation/native'
+import { VIEWS } from '@gcMobile/navigation/constants'
+import { colors } from '@gcMobile/theme/default.styles'
 
 export const HouseManagement = () => {
     const dispatch = useDispatch()
+    const navigation = useNavigation()
     const { houses, currentHouseId } = useSelector((state: RootState) => state.houseReducer)
     const { name } = useSelector((state: RootState) => state.userReducer)
 
@@ -20,7 +24,7 @@ export const HouseManagement = () => {
         () =>
             houses.map((house) => ({
                 id: `${house.id}`,
-                label: `Manzana: ${house.manzana} - Numero: ${house.num_int}.\n${house.calle}, ${house.ciudad}, ${house.cp}`,
+                label: `${house.manzana} ${house.num_int}\n${house.calle}, ${house.ciudad}, ${house.cp}`,
                 value: `${house.id}`,
             })),
         []
@@ -29,8 +33,7 @@ export const HouseManagement = () => {
     return (
         <View style={styles.container}>
             <View style={styles.teenthHeight}>
-                <FontAwesome5 name="house-user" size={18} color="gray" />
-                <Text style={styles.title}>{`Gestion de Unidades de: ${name}`}</Text>
+                <Text style={[styles.tinyText, { color: colors.blue }]}>Consultar otra casa</Text>
             </View>
             <View style={styles.thirdHeight}>
                 <RadioGroup
@@ -50,14 +53,15 @@ export const HouseManagement = () => {
                             dispatch(
                                 setCurrentHouseInfo({
                                     currentHouseId: house.id,
-
                                     currentResidence: house.residencial,
                                     currentHouseInstalacion: house.num_int,
                                     currentHouseManzana: house.manzana,
+                                    recintoImageUrl: house.logo,
                                 })
                             )
                         }
                         setSelectedHouse(id)
+                        navigation.navigate({ name: VIEWS.HOME } as never)
                     }}
                     selectedId={selectedHouse}
                 />

@@ -7,6 +7,23 @@ import RNFetchBlob from 'rn-fetch-blob'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification'
 import Share from 'react-native-share'
+import { base_web_server } from '@gcMobile/components/Auth/constants'
+import { VIEWS } from '@gcMobile/navigation/constants'
+
+export const CANNONICAL_MONTHS: any = {
+    1: 'Enero',
+    2: 'Febrero',
+    3: 'Marzo',
+    4: 'Abril',
+    5: 'Mayo',
+    6: 'Junio',
+    7: 'Julio',
+    8: 'Agosto',
+    9: 'Septiembre',
+    10: 'Octubre',
+    11: 'Noviembre',
+    12: 'Diciembre',
+}
 
 export const getTipoVisitaIcon = (tipo_visita: string) => {
     const { catalogVisitas } = useSelector((state: RootState) => state.tipoVisitas)
@@ -160,4 +177,41 @@ export const onShareFile = async (uri: string) => {
 
 export const PROFILES = {
     OWNER: 2,
+}
+
+export const clearForm = (form: any) => {
+    Object.keys(form).forEach((key) => {
+        if (typeof form[key] === 'string') {
+            form[key] = ''
+        } else if (typeof form[key] === 'number') {
+            form[key] = 0
+        }
+    })
+    return form
+}
+
+export const formatDateToHome = (date: string) => {
+    if (date === '') return ''
+    const [year, month, day] = date.split('-')
+    const monthName = CANNONICAL_MONTHS[Number.parseInt(month, 10)]
+    return `${monthName} ${day}/${month}/${year}`
+}
+
+export const goToPDFViewer = (navigation: any, uri: string) => {
+    try {
+        RNFetchBlob.config({
+            fileCache: true,
+            appendExt: 'pdf',
+        })
+            .fetch('GET', `${base_web_server}${uri}`)
+            .then((res) => {
+                navigation.navigate(VIEWS.PDF_VIEWER, { uri: res.path() })
+            })
+            .catch((error) => console.log(error))
+    } catch (error) {
+        Toast.show({
+            type: ALERT_TYPE.DANGER,
+            textBody: 'No se pudo obtener el archivo.',
+        })
+    }
 }

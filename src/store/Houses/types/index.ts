@@ -7,4 +7,5 @@ export type HousesSlice = {
     currentHouseId: number
     currentHouseInstalacion: string
     currentHouseManzana: string
+    recintoImageUrl: string
 }

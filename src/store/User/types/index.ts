@@ -6,4 +6,5 @@ export interface UserData {
     name: string
     id: string
     recintoId: string
+    pictureUrl: string
 }

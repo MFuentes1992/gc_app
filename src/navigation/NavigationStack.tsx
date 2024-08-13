@@ -14,6 +14,7 @@ import EdoCuenta from '@gcMobile/screens/Edocuenta'
 import { Avisos } from '@gcMobile/screens/Avisos/Avisos'
 import { MenuScreen } from '@gcMobile/screens/MenuScreen/MenuScreen'
 import Recibos from '@gcMobile/screens/Recibos'
+import Home from '@gcMobile/screens/Home'
 
 const NavigationStack = () => {
     const Drawer = createDrawerNavigator()
@@ -22,8 +23,12 @@ const NavigationStack = () => {
         <Drawer.Navigator
             drawerContent={() => <MenuScreen />}
             backBehavior="initialRoute"
-            initialRouteName={VIEWS.VISITAS}
+            initialRouteName={VIEWS.LOGIN}
+            screenOptions={{
+                unmountOnBlur: true,
+            }}
         >
+            <Drawer.Screen name={VIEWS.HOME} component={Home} options={{ headerShown: false }} />
             <Drawer.Screen name={VIEWS.LOGIN} component={LoginScreen} options={{ headerShown: false }} />
             <Drawer.Screen name={VIEWS.CREATE_VISITA} component={Form} options={{ headerShown: false }} />
             <Drawer.Screen name={VIEWS.VISITAS} component={VisitsScreen} options={{ headerShown: false }} />

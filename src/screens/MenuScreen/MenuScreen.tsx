@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesome } from '@expo/vector-icons'
 import { MaterialCommunityIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
 import { MenuProps, styles } from './constants'
 import { logout } from '../Login/constants'
@@ -14,9 +14,10 @@ import { setMenuOpen } from '@gcMobile/store/UI'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { PROFILES } from '@gcMobile/util'
+import { base_web_server } from '@gcMobile/components/Auth/constants'
 
 export const MenuScreen = () => {
-    const { currentHouseInstalacion, currentHouseManzana, currentResidence } = useSelector(
+    const { currentHouseInstalacion, currentHouseManzana, currentResidence, recintoImageUrl } = useSelector(
         (state: RootState) => state.houseReducer
     )
 
@@ -38,12 +39,12 @@ export const MenuScreen = () => {
             {/** Title row */}
             <View style={styles.residenceContainer}>
                 <View style={{ flexDirection: 'row' }}>
-                    {/* <FontAwesome name="user-circle-o" style={styles.iconStyles} /> */}
+                    <Image source={{ uri: `${base_web_server}${recintoImageUrl}` }} style={[styles.Image_Styles]} />
                     <View style={{ flexDirection: 'column' }}>
-                        <Text style={styles.textStyles}>Asociacion de condominos - {currentResidence}</Text>
+                        <Text style={styles.textStyles}>{currentResidence}</Text>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.tinyText}>{`Manzana: ${currentHouseManzana}`}</Text>
-                            <Text style={styles.tinyText}>{`Casa: ${currentHouseInstalacion}`}</Text>
+                            <Text style={styles.tinyText}>{currentHouseManzana}</Text>
+                            <Text style={styles.tinyText}>{currentHouseInstalacion}</Text>
                         </View>
                     </View>
                 </View>
@@ -82,6 +83,19 @@ export const MenuScreen = () => {
                     </TouchableOpacity>
                 </View>
             )}
+            {/** Consulta de Visitas */}
+            <View style={styles.tenthHeight}>
+                <TouchableOpacity
+                    style={{ flexDirection: 'row' }}
+                    onPress={() => {
+                        dispatch(setMenuOpen(false))
+                        navigation.navigate(VIEWS.VISITAS as never)
+                    }}
+                >
+                    <FontAwesome name="id-card-o" style={styles.iconStyles} />
+                    <Text style={styles.textStyles}>Visitas</Text>
+                </TouchableOpacity>
+            </View>
             {/** Consulta de Avisos */}
             <View style={styles.tenthHeight}>
                 <TouchableOpacity
@@ -109,12 +123,14 @@ export const MenuScreen = () => {
                 </TouchableOpacity>
             </View>
             {/** Cambiar contrasenia */}
-            <View style={styles.tenthHeight}>
-                <TouchableOpacity style={{ flexDirection: 'row' }}>
-                    <MaterialCommunityIcons name="form-textbox-password" style={styles.iconStyles} />
-                    <Text style={styles.textStyles}>Cambiar contraseña</Text>
-                </TouchableOpacity>
-            </View>
+            {false && (
+                <View style={styles.tenthHeight}>
+                    <TouchableOpacity style={{ flexDirection: 'row' }}>
+                        <MaterialCommunityIcons name="form-textbox-password" style={styles.iconStyles} />
+                        <Text style={styles.textStyles}>Cambiar contraseña</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
             {/** Cerrar sesion */}
             <View style={styles.tenthHeight}>
                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={handleLogout}>

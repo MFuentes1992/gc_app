@@ -49,4 +49,10 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'normal',
     },
+    Image_Styles: {
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        marginRight: 10,
+    },
 })

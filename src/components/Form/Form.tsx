@@ -20,6 +20,7 @@ import { Container } from '../Container/Container'
 import { VehicleInformation } from '../VehicleInformation/VehicleInformation'
 import { HeaderActionButton } from '../HeaderActionButton/HeaderActionButton'
 import { VehicleInformationState } from '../VehicleInformation/types'
+import { clearForm } from '@gcMobile/util'
 
 export const TipoVisitasIcon: { [key: string]: React.ReactNode } = {
     Visita: <FontAwesome name="user" size={24} color={colors.darkGray} />,
@@ -51,7 +52,7 @@ export default function Form({ navigation }: any) {
         fromHour: new Date().toLocaleString().split(' ')[1].split(':')[0],
         toHour: new Date().toLocaleString().split(' ')[1].split(':')[0],
         notificaciones: 1,
-        acceso: 0,
+        acceso: -1,
     })
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showModalTime, setShowModalTime] = useState<boolean>(false)
@@ -106,6 +107,18 @@ export default function Form({ navigation }: any) {
     useEffect(() => {
         if (catalogIngreso.length === 0 || catalogIngreso === undefined)
             dispatch(getCatalogTipoIngreso() as unknown as any)
+
+        setFormValues({
+            visitaNombre: '',
+            tipo_visita: '',
+            tipo_ingreso: '',
+            fromDate: new Date().toISOString(),
+            toDate: new Date().toISOString(),
+            fromHour: new Date().toLocaleString().split(' ')[1].split(':')[0],
+            toHour: new Date().toLocaleString().split(' ')[1].split(':')[0],
+            notificaciones: 0,
+            acceso: -1,
+        })
     }, [])
 
     useEffect(() => {
@@ -154,6 +167,7 @@ export default function Form({ navigation }: any) {
                     paddingTop: '5%',
                     paddingBottom: '5%',
                 }}
+                overScrollMode="never"
             >
                 {/** Tipo de servicios */}
                 <View style={{ flex: 0.16, marginBottom: '10%' }}>
@@ -163,6 +177,7 @@ export default function Form({ navigation }: any) {
                             label: catalog.tipo_visita,
                             icon: TipoVisitasIcon[catalog.tipo_visita] as unknown as React.ReactNode,
                         }))}
+                        value={`${formValues.tipo_visita}`}
                         handleChange={(value: string) => {
                             setFormValues((prev) => ({ ...prev, tipo_visita: value }))
                         }}
@@ -177,6 +192,7 @@ export default function Form({ navigation }: any) {
                                 borderBottomColor: 'gray',
                                 borderBottomWidth: 1,
                             }}
+                            value={formValues.visitaNombre.toString()}
                             onFocus={() => {}}
                             onBlur={() => {}}
                             onChangeText={(text) => setFormValues({ ...formValues, visitaNombre: text })}
@@ -248,6 +264,7 @@ export default function Form({ navigation }: any) {
                             label: catalog.tipo_ingreso,
                             icon: TipoVisitasIcon[catalog.tipo_ingreso] as unknown as React.ReactNode,
                         }))}
+                        value={`${formValues.tipo_ingreso}`}
                         handleChange={(value: string) => {
                             setFormValues((prev) => ({ ...prev, tipo_ingreso: value }))
                         }}
@@ -276,6 +293,7 @@ export default function Form({ navigation }: any) {
                             label: catalog.label,
                             icon: TipoVisitasIcon[catalog.accesor] as unknown as React.ReactNode,
                         }))}
+                        value={`${formValues.acceso}`}
                         handleChange={(value: string) => setFormValues((prev) => ({ ...prev, acceso: value }))}
                     />
                 </View>
@@ -302,7 +320,7 @@ export default function Form({ navigation }: any) {
                             onValueChange={() =>
                                 setFormValues((prev) => ({
                                     ...prev,
-                                    notificaciones: prev['notificaciones'] === '0' ? '1' : '0',
+                                    notificaciones: prev['notificaciones'] === 0 ? 1 : 0,
                                 }))
                             }
                             value={formValues['notificaciones'] === 1 ? true : false}
@@ -329,7 +347,7 @@ export default function Form({ navigation }: any) {
                             }}
                             textButton="Cancelar"
                             onPress={() => {
-                                navigation.navigate(VIEWS.VISITAS)
+                                navigation.navigate(VIEWS.HOME)
                             }}
                         />
                         <Button
@@ -378,7 +396,7 @@ export default function Form({ navigation }: any) {
                                 },
                             }}
                             style={{ width: '100%' }}
-                            onDayPress={(day) => {
+                            onDayPress={(day: any) => {
                                 switch (formValues['dateType']) {
                                     case 'from':
                                         setFormValues((prev) => ({
