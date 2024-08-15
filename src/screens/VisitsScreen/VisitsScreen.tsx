@@ -9,6 +9,7 @@ import { RootState } from '@gcMobile/store'
 import { getCatalogTipoVisitas } from '@gcMobile/store/TipoVisitas/api'
 import { isEmpty } from 'lodash'
 import { VIEWS } from '@gcMobile/navigation/constants'
+import { Navbar } from '@gcMobile/navigation/Navbar/Navbar'
 
 const VisitsScreen = ({ navigation }: any) => {
     const dispatch = useDispatch()
@@ -27,25 +28,30 @@ const VisitsScreen = ({ navigation }: any) => {
     }, [catalogVisitas])
 
     return (
-        <View style={{ flex: 1 }}>
-            <Tab selectedTab={getSelectedValue} />
-            <View
-                style={{
-                    ...(selectedTab === 'VisitHistory' && visitsStyle.hidden),
-                    flex: 1,
-                }}
-            >
-                {access_token !== '' && <VisitorControlScreen navigation={navigation} filters={catalogVisitas || []} />}
+        <>
+            <Navbar />
+            <View style={{ flex: 1 }}>
+                <Tab selectedTab={getSelectedValue} />
+                <View
+                    style={{
+                        ...(selectedTab === 'VisitHistory' && visitsStyle.hidden),
+                        flex: 1,
+                    }}
+                >
+                    {access_token !== '' && (
+                        <VisitorControlScreen navigation={navigation} filters={catalogVisitas || []} />
+                    )}
+                </View>
+                <View
+                    style={
+                        // -- TODO: Fix this to match the above
+                        !selectedTab || selectedTab === 'VisitorControl' ? visitsStyle.hidden : undefined
+                    }
+                >
+                    {access_token !== '' && <VisitHistoryScreen />}
+                </View>
             </View>
-            <View
-                style={
-                    // -- TODO: Fix this to match the above
-                    !selectedTab || selectedTab === 'VisitorControl' ? visitsStyle.hidden : undefined
-                }
-            >
-                {access_token !== '' && <VisitHistoryScreen />}
-            </View>
-        </View>
+        </>
     )
 }
 

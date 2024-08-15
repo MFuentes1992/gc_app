@@ -169,14 +169,19 @@ export const Home = ({ navigation }: any) => {
         if (currentHouseId) {
             dispatch(getPaymentReference(currentHouseId.toString()) as any)
         }
-        dispatch(getLastEdoCta(userId, currentHouseId.toString()) as any)
-        dispatch(
-            getLastRecibo({
-                residenteId: userId,
-                instalacionId: currentHouseId.toString(),
-                recintoId: recintoId.toString(),
-            }) as any
-        )
+        if (userId && currentHouseId) {
+            dispatch(getLastEdoCta(userId, currentHouseId.toString()) as any)
+        }
+        if (userId && currentHouseId) {
+            dispatch(
+                getLastRecibo({
+                    residenteId: userId,
+                    instalacionId: currentHouseId.toString(),
+                    recintoId: recintoId.toString(),
+                }) as any
+            )
+        }
+
         const year = new Date().getFullYear()
         const month = new Date().getMonth() + 1
         dispatch(getAvisosByDate(recintoId.toString(), `${year}-${month}-01`) as any)
@@ -194,7 +199,7 @@ export const Home = ({ navigation }: any) => {
     }, [avisos, recibos])
 
     return (
-        <ScrollView overScrollMode="never">
+        <ScrollView overScrollMode="never" contentContainerStyle={[{ paddingBottom: 10 }]}>
             <HeaderCard
                 imageUrl={`${base_web_server}${pictureUrl}`}
                 nombre={name}

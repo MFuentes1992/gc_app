@@ -11,6 +11,7 @@ import { getRecintoId } from '@gcMobile/store/Houses/api'
 import { useNavigation } from '@react-navigation/native'
 import { VIEWS } from '@gcMobile/navigation/constants'
 import { colors } from '@gcMobile/theme/default.styles'
+import { Navbar } from '@gcMobile/navigation/Navbar/Navbar'
 
 export const HouseManagement = () => {
     const dispatch = useDispatch()
@@ -32,9 +33,7 @@ export const HouseManagement = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.teenthHeight}>
-                <Text style={[styles.tinyText, { color: colors.blue }]}>Consultar otra casa</Text>
-            </View>
+            <Navbar title="Consultar otra casa" />
             <View style={styles.thirdHeight}>
                 <RadioGroup
                     layout="column"

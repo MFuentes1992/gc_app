@@ -21,6 +21,7 @@ import { VehicleInformation } from '../VehicleInformation/VehicleInformation'
 import { HeaderActionButton } from '../HeaderActionButton/HeaderActionButton'
 import { VehicleInformationState } from '../VehicleInformation/types'
 import { clearForm } from '@gcMobile/util'
+import { Navbar } from '@gcMobile/navigation/Navbar/Navbar'
 
 export const TipoVisitasIcon: { [key: string]: React.ReactNode } = {
     Visita: <FontAwesome name="user" size={24} color={colors.darkGray} />,
@@ -160,266 +161,269 @@ export default function Form({ navigation }: any) {
     }
 
     return (
-        <SafeAreaView style={formStyles.container}>
-            <ScrollView
-                contentContainerStyle={{
-                    alignItems: 'center',
-                    paddingTop: '5%',
-                    paddingBottom: '5%',
-                }}
-                overScrollMode="never"
-            >
-                {/** Tipo de servicios */}
-                <View style={{ flex: 0.16, marginBottom: '10%' }}>
-                    <RadioGroup
-                        options={catalogVisitas.map((catalog) => ({
-                            id: catalog.id,
-                            label: catalog.tipo_visita,
-                            icon: TipoVisitasIcon[catalog.tipo_visita] as unknown as React.ReactNode,
-                        }))}
-                        value={`${formValues.tipo_visita}`}
-                        handleChange={(value: string) => {
-                            setFormValues((prev) => ({ ...prev, tipo_visita: value }))
-                        }}
-                    />
-                </View>
-                <View style={{ flex: 0.16, alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                        <TextInput
-                            style={{
-                                width: '80%',
-                                height: 40,
-                                borderBottomColor: 'gray',
-                                borderBottomWidth: 1,
-                            }}
-                            value={formValues.visitaNombre.toString()}
-                            onFocus={() => {}}
-                            onBlur={() => {}}
-                            onChangeText={(text) => setFormValues({ ...formValues, visitaNombre: text })}
-                            autoCapitalize="none"
-                            maxLength={50}
-                        />
-                    </View>
-                </View>
-                <View style={[formStyles.row, formStyles.schedule]}>
-                    <View style={formStyles.columnContainer}>
-                        <Text style={[formStyles.text2, { paddingVertical: 5 }]}>Desde el:</Text>
-                        <Text style={[formStyles.text2, { paddingVertical: 5 }]}>Hasta el:</Text>
-                    </View>
-                    <View style={formStyles.columnContainer}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setFormValues((prev) => ({ ...prev, dateType: 'from' }))
-                                setShowModal(true)
-                            }}
-                        >
-                            <Text style={[formStyles.date, { paddingVertical: 5 }]}>
-                                {new Date(formValues['fromDate']).toLocaleDateString('es-MX', {})}
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setFormValues((prev) => ({ ...prev, dateType: 'to' }))
-                                setShowModal(true)
-                            }}
-                        >
-                            <Text style={[formStyles.date, { paddingVertical: 5 }]}>
-                                {new Date(formValues['toDate']).toLocaleDateString('es-MX', {})}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={formStyles.columnContainer}>
-                        <Text style={[formStyles.text2, { paddingVertical: 5 }]}>a las</Text>
-                        <Text style={[formStyles.text2, { paddingVertical: 5 }]}>a las</Text>
-                    </View>
-                    <View style={formStyles.columnContainer}>
-                        <TouchableOpacity
-                            style={{ paddingVertical: 5 }}
-                            onPress={() => {
-                                setFormValues((prev) => ({ ...prev, hourType: 'from' }))
-                                setShowModalTime(true)
-                            }}
-                        >
-                            <Text>{`${formValues['fromHour']}:00`}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={{ paddingVertical: 5 }}
-                            onPress={() => {
-                                setFormValues((prev) => ({ ...prev, hourType: 'to' }))
-                                setShowModalTime(true)
-                            }}
-                        >
-                            <Text>{`${formValues['toHour']}:00`}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={formStyles.columnContainer}>
-                        <Text style={{ paddingVertical: 5 }}>CST</Text>
-                        <Text style={{ paddingVertical: 5 }}>CST</Text>
-                    </View>
-                </View>
-                <View style={{ flex: 0.16, marginBottom: '5%' }}>
-                    <RadioGroup
-                        options={catalogIngreso.map((catalog) => ({
-                            id: catalog.id,
-                            label: catalog.tipo_ingreso,
-                            icon: TipoVisitasIcon[catalog.tipo_ingreso] as unknown as React.ReactNode,
-                        }))}
-                        value={`${formValues.tipo_ingreso}`}
-                        handleChange={(value: string) => {
-                            setFormValues((prev) => ({ ...prev, tipo_ingreso: value }))
-                        }}
-                    />
-                </View>
-                {formValues.tipo_ingreso === '1' && (
-                    <Container
-                        title="Informacion del vehiculo"
-                        actionButton={<HeaderActionButton icon="plus-circle" onPress={handleAddVehicle} />}
-                    >
-                        <VehicleInformation
-                            numberOfVehicles={totalVehicles}
-                            vehicleData={vehicleData}
-                            removeVehicle={handleRemoveVehicle}
-                            handleOnChange={handleVehicleOnChange}
-                        />
-                    </Container>
-                )}
-                <View style={{ flex: 0.16, marginBottom: '5%' }}>
-                    <RadioGroup
-                        options={[
-                            { id: '0', label: 'Una vez', accesor: 'single' },
-                            { id: '1', label: 'Varias', accesor: 'multiple' },
-                        ].map((catalog) => ({
-                            id: catalog.id,
-                            label: catalog.label,
-                            icon: TipoVisitasIcon[catalog.accesor] as unknown as React.ReactNode,
-                        }))}
-                        value={`${formValues.acceso}`}
-                        handleChange={(value: string) => setFormValues((prev) => ({ ...prev, acceso: value }))}
-                    />
-                </View>
-                <View
-                    style={{
-                        flex: 0.2,
-                        //flexDirection: "row",
+        <>
+            <Navbar title="Generar visita" />
+            <SafeAreaView style={formStyles.container}>
+                <ScrollView
+                    contentContainerStyle={{
                         alignItems: 'center',
-                        marginBottom: '5%',
+                        paddingTop: '5%',
+                        paddingBottom: '5%',
                     }}
+                    overScrollMode="never"
                 >
+                    {/** Tipo de servicios */}
+                    <View style={{ flex: 0.16, marginBottom: '10%' }}>
+                        <RadioGroup
+                            options={catalogVisitas.map((catalog) => ({
+                                id: catalog.id,
+                                label: catalog.tipo_visita,
+                                icon: TipoVisitasIcon[catalog.tipo_visita] as unknown as React.ReactNode,
+                            }))}
+                            value={`${formValues.tipo_visita}`}
+                            handleChange={(value: string) => {
+                                setFormValues((prev) => ({ ...prev, tipo_visita: value }))
+                            }}
+                        />
+                    </View>
+                    <View style={{ flex: 0.16, alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                            <TextInput
+                                style={{
+                                    width: '80%',
+                                    height: 40,
+                                    borderBottomColor: 'gray',
+                                    borderBottomWidth: 1,
+                                }}
+                                value={formValues.visitaNombre.toString()}
+                                onFocus={() => {}}
+                                onBlur={() => {}}
+                                onChangeText={(text) => setFormValues({ ...formValues, visitaNombre: text })}
+                                autoCapitalize="none"
+                                maxLength={50}
+                            />
+                        </View>
+                    </View>
+                    <View style={[formStyles.row, formStyles.schedule]}>
+                        <View style={formStyles.columnContainer}>
+                            <Text style={[formStyles.text2, { paddingVertical: 5 }]}>Desde el:</Text>
+                            <Text style={[formStyles.text2, { paddingVertical: 5 }]}>Hasta el:</Text>
+                        </View>
+                        <View style={formStyles.columnContainer}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setFormValues((prev) => ({ ...prev, dateType: 'from' }))
+                                    setShowModal(true)
+                                }}
+                            >
+                                <Text style={[formStyles.date, { paddingVertical: 5 }]}>
+                                    {new Date(formValues['fromDate']).toLocaleDateString('es-MX', {})}
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setFormValues((prev) => ({ ...prev, dateType: 'to' }))
+                                    setShowModal(true)
+                                }}
+                            >
+                                <Text style={[formStyles.date, { paddingVertical: 5 }]}>
+                                    {new Date(formValues['toDate']).toLocaleDateString('es-MX', {})}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={formStyles.columnContainer}>
+                            <Text style={[formStyles.text2, { paddingVertical: 5 }]}>a las</Text>
+                            <Text style={[formStyles.text2, { paddingVertical: 5 }]}>a las</Text>
+                        </View>
+                        <View style={formStyles.columnContainer}>
+                            <TouchableOpacity
+                                style={{ paddingVertical: 5 }}
+                                onPress={() => {
+                                    setFormValues((prev) => ({ ...prev, hourType: 'from' }))
+                                    setShowModalTime(true)
+                                }}
+                            >
+                                <Text>{`${formValues['fromHour']}:00`}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{ paddingVertical: 5 }}
+                                onPress={() => {
+                                    setFormValues((prev) => ({ ...prev, hourType: 'to' }))
+                                    setShowModalTime(true)
+                                }}
+                            >
+                                <Text>{`${formValues['toHour']}:00`}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={formStyles.columnContainer}>
+                            <Text style={{ paddingVertical: 5 }}>CST</Text>
+                            <Text style={{ paddingVertical: 5 }}>CST</Text>
+                        </View>
+                    </View>
+                    <View style={{ flex: 0.16, marginBottom: '5%' }}>
+                        <RadioGroup
+                            options={catalogIngreso.map((catalog) => ({
+                                id: catalog.id,
+                                label: catalog.tipo_ingreso,
+                                icon: TipoVisitasIcon[catalog.tipo_ingreso] as unknown as React.ReactNode,
+                            }))}
+                            value={`${formValues.tipo_ingreso}`}
+                            handleChange={(value: string) => {
+                                setFormValues((prev) => ({ ...prev, tipo_ingreso: value }))
+                            }}
+                        />
+                    </View>
+                    {formValues.tipo_ingreso === '1' && (
+                        <Container
+                            title="Informacion del vehiculo"
+                            actionButton={<HeaderActionButton icon="plus-circle" onPress={handleAddVehicle} />}
+                        >
+                            <VehicleInformation
+                                numberOfVehicles={totalVehicles}
+                                vehicleData={vehicleData}
+                                removeVehicle={handleRemoveVehicle}
+                                handleOnChange={handleVehicleOnChange}
+                            />
+                        </Container>
+                    )}
+                    <View style={{ flex: 0.16, marginBottom: '5%' }}>
+                        <RadioGroup
+                            options={[
+                                { id: '0', label: 'Una vez', accesor: 'single' },
+                                { id: '1', label: 'Varias', accesor: 'multiple' },
+                            ].map((catalog) => ({
+                                id: catalog.id,
+                                label: catalog.label,
+                                icon: TipoVisitasIcon[catalog.accesor] as unknown as React.ReactNode,
+                            }))}
+                            value={`${formValues.acceso}`}
+                            handleChange={(value: string) => setFormValues((prev) => ({ ...prev, acceso: value }))}
+                        />
+                    </View>
                     <View
                         style={{
-                            flex: 1,
-                            flexDirection: 'row',
+                            flex: 0.2,
+                            //flexDirection: "row",
                             alignItems: 'center',
+                            marginBottom: '5%',
                         }}
                     >
-                        <Text style={{ fontSize: 12, color: colors.gray, marginRight: '2%' }}>Notificaciones:</Text>
-                        <Switch
-                            trackColor={{ false: colors.lightGray, true: colors.limeGreen }}
-                            thumbColor={formValues['notificaciones'] === 0 ? colors.lightGray : colors.white}
-                            ios_backgroundColor="#3e3e3e"
-                            onValueChange={() =>
-                                setFormValues((prev) => ({
-                                    ...prev,
-                                    notificaciones: prev['notificaciones'] === 0 ? 1 : 0,
-                                }))
-                            }
-                            value={formValues['notificaciones'] === 1 ? true : false}
-                        />
-                    </View>
-                </View>
-                <View style={{ flex: 0.2, flexDirection: 'row', height: '50%' }}>
-                    <View
-                        style={{
-                            flex: 1,
-
-                            flexDirection: 'row',
-                            justifyContent: 'space-around',
-                        }}
-                    >
-                        <Button
-                            styles={{
-                                backgroundColor: colors.red,
-                                width: 100,
-                                height: 46.5,
-                                borderRadius: 2,
-                                margin: 'auto',
-                                filter: colors.dropShadow,
+                        <View
+                            style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                alignItems: 'center',
                             }}
-                            textButton="Cancelar"
-                            onPress={() => {
-                                navigation.navigate(VIEWS.HOME)
-                            }}
-                        />
-                        <Button
-                            styles={{
-                                backgroundColor: colors.green,
-                                width: 100,
-                                height: 46.5,
-                                borderRadius: 2,
-                                margin: 'auto',
-                                filter: colors.dropShadow,
-                            }}
-                            textButton="Aceptar"
-                            onPress={handleSubmit}
-                        />
-                    </View>
-                </View>
-            </ScrollView>
-            <ModalHour
-                showModal={showModalTime}
-                setShowModal={setShowModalTime}
-                handleHourChange={(hour: string) => {
-                    switch (formValues['hourType']) {
-                        case 'from':
-                            setFormValues((prev) => ({ ...prev, fromHour: hour }))
-                            break
-                        case 'to':
-                            setFormValues((prev) => ({ ...prev, toHour: hour }))
-                            break
-                        default:
-                            break
-                    }
-                }}
-            />
-            <Modal animationType="fade" transparent={true} visible={showModal} style={{ width: '50%' }}>
-                <View style={{ flex: 1, marginTop: '40%', alignItems: 'center' }}>
-                    <View style={{ flex: 1, width: '90%' }}>
-                        <Calendar
-                            markedDates={{
-                                [formValues['fromDate'].toString().split('T')[0]]: {
-                                    selected: true,
-                                    selectedColor: colors.blue,
-                                },
-                                [formValues['toDate'].toString().split('T')[0]]: {
-                                    selected: true,
-                                    selectedColor: colors.cherry,
-                                },
-                            }}
-                            style={{ width: '100%' }}
-                            onDayPress={(day: any) => {
-                                switch (formValues['dateType']) {
-                                    case 'from':
-                                        setFormValues((prev) => ({
-                                            ...prev,
-                                            fromDate: `${day.dateString}T23:59:00.000Z`,
-                                        }))
-                                        break
-                                    case 'to':
-                                        setFormValues((prev) => ({
-                                            ...prev,
-                                            toDate: `${day.dateString}T23:59:00.000Z`,
-                                        }))
-                                        break
-                                    default:
-                                        break
+                        >
+                            <Text style={{ fontSize: 12, color: colors.gray, marginRight: '2%' }}>Notificaciones:</Text>
+                            <Switch
+                                trackColor={{ false: colors.lightGray, true: colors.limeGreen }}
+                                thumbColor={formValues['notificaciones'] === 0 ? colors.lightGray : colors.white}
+                                ios_backgroundColor="#3e3e3e"
+                                onValueChange={() =>
+                                    setFormValues((prev) => ({
+                                        ...prev,
+                                        notificaciones: prev['notificaciones'] === 0 ? 1 : 0,
+                                    }))
                                 }
-                                setShowModal(false)
-                            }}
-                            shouldRasterizeIOS={true}
-                        />
+                                value={formValues['notificaciones'] === 1 ? true : false}
+                            />
+                        </View>
                     </View>
-                </View>
-            </Modal>
-        </SafeAreaView>
+                    <View style={{ flex: 0.2, flexDirection: 'row', height: '50%' }}>
+                        <View
+                            style={{
+                                flex: 1,
+
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
+                            }}
+                        >
+                            <Button
+                                styles={{
+                                    backgroundColor: colors.red,
+                                    width: 100,
+                                    height: 46.5,
+                                    borderRadius: 2,
+                                    margin: 'auto',
+                                    filter: colors.dropShadow,
+                                }}
+                                textButton="Cancelar"
+                                onPress={() => {
+                                    navigation.navigate(VIEWS.HOME)
+                                }}
+                            />
+                            <Button
+                                styles={{
+                                    backgroundColor: colors.green,
+                                    width: 100,
+                                    height: 46.5,
+                                    borderRadius: 2,
+                                    margin: 'auto',
+                                    filter: colors.dropShadow,
+                                }}
+                                textButton="Aceptar"
+                                onPress={handleSubmit}
+                            />
+                        </View>
+                    </View>
+                </ScrollView>
+                <ModalHour
+                    showModal={showModalTime}
+                    setShowModal={setShowModalTime}
+                    handleHourChange={(hour: string) => {
+                        switch (formValues['hourType']) {
+                            case 'from':
+                                setFormValues((prev) => ({ ...prev, fromHour: hour }))
+                                break
+                            case 'to':
+                                setFormValues((prev) => ({ ...prev, toHour: hour }))
+                                break
+                            default:
+                                break
+                        }
+                    }}
+                />
+                <Modal animationType="fade" transparent={true} visible={showModal} style={{ width: '50%' }}>
+                    <View style={{ flex: 1, marginTop: '40%', alignItems: 'center' }}>
+                        <View style={{ flex: 1, width: '90%' }}>
+                            <Calendar
+                                markedDates={{
+                                    [formValues['fromDate'].toString().split('T')[0]]: {
+                                        selected: true,
+                                        selectedColor: colors.blue,
+                                    },
+                                    [formValues['toDate'].toString().split('T')[0]]: {
+                                        selected: true,
+                                        selectedColor: colors.cherry,
+                                    },
+                                }}
+                                style={{ width: '100%' }}
+                                onDayPress={(day: any) => {
+                                    switch (formValues['dateType']) {
+                                        case 'from':
+                                            setFormValues((prev) => ({
+                                                ...prev,
+                                                fromDate: `${day.dateString}T23:59:00.000Z`,
+                                            }))
+                                            break
+                                        case 'to':
+                                            setFormValues((prev) => ({
+                                                ...prev,
+                                                toDate: `${day.dateString}T23:59:00.000Z`,
+                                            }))
+                                            break
+                                        default:
+                                            break
+                                    }
+                                    setShowModal(false)
+                                }}
+                                shouldRasterizeIOS={true}
+                            />
+                        </View>
+                    </View>
+                </Modal>
+            </SafeAreaView>
+        </>
     )
 }

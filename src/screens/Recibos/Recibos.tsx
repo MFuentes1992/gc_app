@@ -2,6 +2,7 @@ import { base_web_server } from '@gcMobile/components/Auth/constants'
 import NotificationItem from '@gcMobile/components/NotificationItem'
 import { AVISOS_TYPE } from '@gcMobile/components/NotificationItem/constants'
 import { VIEWS } from '@gcMobile/navigation/constants'
+import { Navbar } from '@gcMobile/navigation/Navbar/Navbar'
 import { RootState } from '@gcMobile/store'
 import { getRecibos } from '@gcMobile/store/Recibos/api'
 import { useNavigation } from '@react-navigation/native'
@@ -50,16 +51,19 @@ export const Recibos = () => {
     }
 
     return (
-        <ScrollView>
-            {recibos.map((recibo) => (
-                <NotificationItem
-                    key={recibo.id}
-                    title={`Recibo ${recibo.folio}`}
-                    date={recibo.fecha}
-                    type={AVISOS_TYPE.AVISO}
-                    handlePress={() => handlePress(recibo.nombre)}
-                />
-            ))}
-        </ScrollView>
+        <>
+            <Navbar title="Recibos de pago" />
+            <ScrollView>
+                {recibos.map((recibo) => (
+                    <NotificationItem
+                        key={recibo.id}
+                        title={`Recibo ${recibo.folio}`}
+                        date={recibo.fecha}
+                        type={AVISOS_TYPE.AVISO}
+                        handlePress={() => handlePress(recibo.nombre)}
+                    />
+                ))}
+            </ScrollView>
+        </>
     )
 }

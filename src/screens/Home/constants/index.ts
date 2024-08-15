@@ -16,7 +16,6 @@ export const card_container_styles: ViewStyle = {
     padding: 10,
     backgroundColor: 'white',
     borderRadius: 10,
-    elevation: 5,
     maxHeight: 300,
 }
 

@@ -1,6 +1,7 @@
 import NotificationItem from '@gcMobile/components/NotificationItem'
 import { AVISOS_TYPE } from '@gcMobile/components/NotificationItem/constants'
 import { VIEWS } from '@gcMobile/navigation/constants'
+import { Navbar } from '@gcMobile/navigation/Navbar/Navbar'
 import { RootState } from '@gcMobile/store'
 import { getAvisos } from '@gcMobile/store/Notificaciones/api'
 import { useNavigation } from '@react-navigation/native'
@@ -26,18 +27,21 @@ export const Avisos = () => {
     }
 
     return (
-        <ScrollView>
-            {avisos.map((item, index) => (
-                <NotificationItem
-                    key={index}
-                    id={item.id}
-                    title={item.titulo}
-                    date={item.fecha}
-                    body={item.descripcion}
-                    type={AVISOS_TYPE.AVISO}
-                    handlePress={() => handlePress(item.id, item.titulo, item.descripcion)}
-                />
-            ))}
-        </ScrollView>
+        <>
+            <Navbar title="Avisos" />
+            <ScrollView>
+                {avisos.map((item, index) => (
+                    <NotificationItem
+                        key={index}
+                        id={item.id}
+                        title={item.titulo}
+                        date={item.fecha}
+                        body={item.descripcion}
+                        type={AVISOS_TYPE.AVISO}
+                        handlePress={() => handlePress(item.id, item.titulo, item.descripcion)}
+                    />
+                ))}
+            </ScrollView>
+        </>
     )
 }
