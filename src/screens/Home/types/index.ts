@@ -21,6 +21,8 @@ export type HomeCardProps = {
     bankInformation: BankInformation
     paymentReference: PaymentReference
     showBankData: boolean
+    adeudo: number
+    saldo: number
 }
 
 export type HomeCreateVisitProps = {

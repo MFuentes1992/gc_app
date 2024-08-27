@@ -15,4 +15,5 @@ export const VIEWS = {
     EDO_CUENTA: 'EdoCuenta',
     AVISOS: 'Avisos',
     RECIBOS: 'Recibos',
+    CHANGE_PASSWORD: 'ChangePassword',
 }

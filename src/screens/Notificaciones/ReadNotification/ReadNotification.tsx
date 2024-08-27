@@ -21,6 +21,7 @@ import {
 import { RootState } from '@gcMobile/store'
 import { getAttachments } from '@gcMobile/store/Notificaciones/api'
 import { setAttachments } from '@gcMobile/store/Notificaciones'
+import { Navbar } from '@gcMobile/navigation/Navbar/Navbar'
 
 export const ReadNotification = ({ route, navigation }: any) => {
     const { id, title, body } = route.params
@@ -88,52 +89,55 @@ export const ReadNotification = ({ route, navigation }: any) => {
     }, []) */
 
     return (
-        <View style={readNotification}>
-            <View style={readNotificationHeader}>
-                <Text
-                    style={[
-                        {
-                            fontFamily: 'Roboto',
-                            fontSize: fonts.text_subtitle,
-                            fontWeight: '500',
-                            color: colors.darkGray,
-                        },
-                    ]}
-                >
-                    {title}
-                </Text>
-            </View>
-            <View style={readNotificationBody}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <>
+            <Navbar />
+            <View style={readNotification}>
+                <View style={readNotificationHeader}>
                     <Text
                         style={[
                             {
                                 fontFamily: 'Roboto',
-                                fontSize: fonts.bodyText2,
-                                fontWeight: '200',
+                                fontSize: fonts.text_subtitle,
+                                fontWeight: '500',
                                 color: colors.darkGray,
                             },
                         ]}
                     >
-                        {sanitizeString(body)}
+                        {title}
                     </Text>
                 </View>
-                {base64Uri !== '' && (
-                    <View style={readNotificationAttachments}>
-                        <TouchableOpacity onPress={() => handleAttachFile(base64Uri, attachment)}>
-                            <Text style={IconStyle}>
-                                <FontAwesome name="paperclip" style={AttachmentIcon} />
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => onShareFile(base64Uri)}>
-                            <Text>
-                                <FontAwesome name="share" style={AttachmentIcon} />
-                            </Text>
-                        </TouchableOpacity>
-                        <Text style={fileLabelStyle}>{attachment.split('/')[1]}</Text>
+                <View style={readNotificationBody}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                        <Text
+                            style={[
+                                {
+                                    fontFamily: 'Roboto',
+                                    fontSize: fonts.bodyText2,
+                                    fontWeight: '200',
+                                    color: colors.darkGray,
+                                },
+                            ]}
+                        >
+                            {sanitizeString(body)}
+                        </Text>
                     </View>
-                )}
+                    {base64Uri !== '' && (
+                        <View style={readNotificationAttachments}>
+                            <TouchableOpacity onPress={() => handleAttachFile(base64Uri, attachment)}>
+                                <Text style={IconStyle}>
+                                    <FontAwesome name="paperclip" style={AttachmentIcon} />
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => onShareFile(base64Uri)}>
+                                <Text>
+                                    <FontAwesome name="share" style={AttachmentIcon} />
+                                </Text>
+                            </TouchableOpacity>
+                            <Text style={fileLabelStyle}>{attachment.split('/')[1]}</Text>
+                        </View>
+                    )}
+                </View>
             </View>
-        </View>
+        </>
     )
 }

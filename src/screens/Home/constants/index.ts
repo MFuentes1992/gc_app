@@ -16,7 +16,6 @@ export const card_container_styles: ViewStyle = {
     padding: 10,
     backgroundColor: 'white',
     borderRadius: 10,
-    maxHeight: 300,
 }
 
 export const Main_Info_Headers: ViewStyle = {
@@ -50,6 +49,13 @@ export const Main_Body_Titles: TextStyle = {
     fontSize: fonts.typingText,
     fontWeight: 'bold',
     marginBottom: 5,
+}
+
+export const Main_Body_Titles_small: TextStyle = {
+    fontSize: fonts.bodyText1,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: colors.gray,
 }
 
 export const Image_Styles: ImageStyle = {
@@ -90,4 +96,12 @@ export const icons_styles: any = {
     marginLeft: '2%',
     fontSize: 20,
     color: colors.gray,
+}
+
+export const saldos_styles: TextStyle = {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
 }

@@ -15,6 +15,7 @@ import { Avisos } from '@gcMobile/screens/Avisos/Avisos'
 import { MenuScreen } from '@gcMobile/screens/MenuScreen/MenuScreen'
 import Recibos from '@gcMobile/screens/Recibos'
 import Home from '@gcMobile/screens/Home'
+import { PasswordManager } from '@gcMobile/screens/PasswordManager/PasswordManager'
 
 const NavigationStack = () => {
     const Drawer = createDrawerNavigator()
@@ -49,6 +50,7 @@ const NavigationStack = () => {
             <Drawer.Screen name={VIEWS.EDO_CUENTA} component={EdoCuenta} options={{ headerShown: false }} />
             <Drawer.Screen name={VIEWS.AVISOS} component={Avisos} options={{ headerShown: false }} />
             <Drawer.Screen name={VIEWS.RECIBOS} component={Recibos} options={{ headerShown: false }} />
+            <Drawer.Screen name={VIEWS.CHANGE_PASSWORD} component={PasswordManager} options={{ headerShown: false }} />
         </Drawer.Navigator>
     )
 }

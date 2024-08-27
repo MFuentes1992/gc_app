@@ -9,4 +9,6 @@ export type BankData = {
     numero_cuenta: string
     clabe: string
     referencia?: PaymentReference
+    adeudo: number
+    saldo: number
 }

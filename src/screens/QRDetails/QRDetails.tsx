@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@gcMobile/store'
 import Share from 'react-native-share'
 import { saveToCameraRoll } from '@gcMobile/util'
+import { Navbar } from '@gcMobile/navigation/Navbar/Navbar'
 
 type QRDetailsProps = {
     navigation: any
@@ -37,87 +38,90 @@ export const QRDetails = ({ route, navigation }: QRDetailsProps) => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ flex: 0.4, alignItems: 'center', paddingTop: '10%', marginBottom: '5%' }}>
-                <View
-                    style={{
-                        width: '60%',
-                        margin: 'auto',
-                        backgroundColor: colors.lightGray,
-                        alignItems: 'center',
-                        padding: '5%',
-                        borderRadius: 10,
-                    }}
-                >
-                    <ViewShot ref={ref}>
-                        <Image
-                            style={{ width: 150, height: 150, margin: 'auto' }}
-                            source={{
-                                uri: url,
-                            }}
-                        />
-                    </ViewShot>
-                </View>
-                <View style={{ marginTop: '5%' }}>
-                    <Text>{currentResidence}</Text>
+        <>
+            <Navbar title="Detalles QR" />
+            <View style={{ flex: 1 }}>
+                <View style={{ flex: 0.4, alignItems: 'center', paddingTop: '10%', marginBottom: '5%' }}>
                     <View
                         style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            width: '60%',
+                            margin: 'auto',
+                            backgroundColor: colors.lightGray,
+                            alignItems: 'center',
+                            padding: '5%',
+                            borderRadius: 10,
                         }}
                     >
-                        <Text
+                        <ViewShot ref={ref}>
+                            <Image
+                                style={{ width: 150, height: 150, margin: 'auto' }}
+                                source={{
+                                    uri: url,
+                                }}
+                            />
+                        </ViewShot>
+                    </View>
+                    <View style={{ marginTop: '5%' }}>
+                        <Text>{currentResidence}</Text>
+                        <View
                             style={{
-                                fontSize: 10,
+                                flex: 1,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
                             }}
-                        >{`Seccion: ${currentHouseManzana}`}</Text>
-                        <Text
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 10,
+                                }}
+                            >{`Seccion: ${currentHouseManzana}`}</Text>
+                            <Text
+                                style={{
+                                    fontSize: 10,
+                                }}
+                            >{`Casa: ${currentHouseInstalacion}`}</Text>
+                        </View>
+                    </View>
+                </View>
+                <View
+                    style={{
+                        flex: 0.1,
+                        alignItems: 'center',
+                    }}
+                >
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            width: '60%',
+                            justifyContent: 'space-around',
+                            borderRadius: 5,
+                            padding: '2%',
+                            backgroundColor: colors.lightGray,
+                        }}
+                    >
+                        <TouchableOpacity
                             style={{
-                                fontSize: 10,
+                                width: '10%',
+                                margin: 'auto',
+                                alignItems: 'center',
                             }}
-                        >{`Casa: ${currentHouseInstalacion}`}</Text>
+                            onPress={() => onShare()}
+                        >
+                            <FontAwesome name="share-alt" size={24} color="black" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                width: '10%',
+                                margin: 'auto',
+                                alignItems: 'center',
+                            }}
+                            onPress={() => saveToCameraRoll(url, 'El QR se ha guardo correctamente')}
+                        >
+                            <Entypo name="download" size={24} color="black" />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
-            <View
-                style={{
-                    flex: 0.1,
-                    alignItems: 'center',
-                }}
-            >
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        width: '60%',
-                        justifyContent: 'space-around',
-                        borderRadius: 5,
-                        padding: '2%',
-                        backgroundColor: colors.lightGray,
-                    }}
-                >
-                    <TouchableOpacity
-                        style={{
-                            width: '10%',
-                            margin: 'auto',
-                            alignItems: 'center',
-                        }}
-                        onPress={() => onShare()}
-                    >
-                        <FontAwesome name="share-alt" size={24} color="black" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={{
-                            width: '10%',
-                            margin: 'auto',
-                            alignItems: 'center',
-                        }}
-                        onPress={() => saveToCameraRoll(url, 'El QR se ha guardo correctamente')}
-                    >
-                        <Entypo name="download" size={24} color="black" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </View>
+        </>
     )
 }

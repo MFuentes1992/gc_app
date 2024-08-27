@@ -1,7 +1,7 @@
 import { base_url } from '@gcMobile/components/Auth/constants'
 import { stringTemplateAddQuery } from '@gcMobile/util'
 import { ENDPOINTS } from '@gcMobile/util/urls'
-import { setBankData, setPaymentReference } from '..'
+import { setAdeudo, setBankData, setPaymentReference, setSaldo } from '..'
 import { setLoading } from '@gcMobile/store/UI'
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification'
 
@@ -37,6 +37,54 @@ export const getPaymentReference = (instalacionId: string) => async (dispatch: a
             const { result } = data
             const [paymentReference] = result
             dispatch(setPaymentReference(paymentReference))
+            dispatch(setLoading(false))
+        })
+        .catch((error) => {
+            dispatch(setLoading(false))
+            Toast.show({
+                title: 'Error',
+                textBody: 'Ocurrió un error al obtener informacion.',
+                type: ALERT_TYPE.DANGER,
+            })
+        })
+}
+
+export const getAdeudo = (instalacion: string) => async (dispatch: any) => {
+    dispatch(setLoading(true))
+    const stringUrl = `${base_url}/${ENDPOINTS.HOME.ADEUDO}`
+    const url = stringTemplateAddQuery(stringUrl, { instalacion })
+    console.log(url)
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('data ===>', data)
+            const { debt } = data
+            dispatch(setAdeudo(debt))
+            dispatch(setLoading(false))
+        })
+        .catch((error) => {
+            dispatch(setLoading(false))
+            Toast.show({
+                title: 'Error',
+                textBody: 'Ocurrió un error al obtener informacion.',
+                type: ALERT_TYPE.DANGER,
+            })
+        })
+}
+
+export const getEquity = (instalacion: string) => async (dispatch: any) => {
+    dispatch(setLoading(true))
+    const stringUrl = `${base_url}/${ENDPOINTS.HOME.EQUITY}`
+    const url = stringTemplateAddQuery(stringUrl, { instalacion })
+    console.log(url)
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('data ===>', data)
+            const { equity } = data
+            dispatch(setSaldo(equity as number))
             dispatch(setLoading(false))
         })
         .catch((error) => {

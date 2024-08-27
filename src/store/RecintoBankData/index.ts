@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { BankData, PaymentReference } from './types'
-import { set } from 'lodash'
 
 const initialState: BankData = {
     banco: '',
@@ -11,6 +10,8 @@ const initialState: BankData = {
         referencia_concepto: '',
         referencia_centavos: '',
     },
+    adeudo: 0,
+    saldo: 0,
 }
 
 const RecintoBankDataSlice = createSlice({
@@ -25,8 +26,14 @@ const RecintoBankDataSlice = createSlice({
         setPaymentReference(state, action: PayloadAction<PaymentReference>) {
             state.referencia = action.payload
         },
+        setAdeudo(state, action: PayloadAction<number>) {
+            state.adeudo = action.payload
+        },
+        setSaldo(state, action: PayloadAction<number>) {
+            state.saldo = action.payload
+        },
     },
 })
 
-export const { setBankData, setPaymentReference } = RecintoBankDataSlice.actions
+export const { setBankData, setPaymentReference, setAdeudo, setSaldo } = RecintoBankDataSlice.actions
 export default RecintoBankDataSlice.reducer

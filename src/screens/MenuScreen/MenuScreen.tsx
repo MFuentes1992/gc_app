@@ -123,14 +123,18 @@ export const MenuScreen = () => {
                 </TouchableOpacity>
             </View>
             {/** Cambiar contrasenia */}
-            {false && (
-                <View style={styles.tenthHeight}>
-                    <TouchableOpacity style={{ flexDirection: 'row' }}>
-                        <MaterialCommunityIcons name="form-textbox-password" style={styles.iconStyles} />
-                        <Text style={styles.textStyles}>Cambiar contraseña</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+            <View style={styles.tenthHeight}>
+                <TouchableOpacity
+                    style={{ flexDirection: 'row' }}
+                    onPress={() => {
+                        dispatch(setMenuOpen(false))
+                        navigation.navigate(VIEWS.CHANGE_PASSWORD as never)
+                    }}
+                >
+                    <MaterialCommunityIcons name="form-textbox-password" style={styles.iconStyles} />
+                    <Text style={styles.textStyles}>Cambiar contraseña</Text>
+                </TouchableOpacity>
+            </View>
             {/** Cerrar sesion */}
             <View style={styles.tenthHeight}>
                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={handleLogout}>

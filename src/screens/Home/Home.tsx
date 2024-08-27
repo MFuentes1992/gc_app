@@ -15,18 +15,20 @@ import {
     Image_Styles,
     Last_Payment_Row,
     Main_Body_Titles,
+    Main_Body_Titles_small,
     Main_Info_Body,
     Main_Info_Body_Account,
     Main_Info_Headers,
     row_label,
+    saldos_styles,
 } from './constants'
 import { VIEWS } from '@gcMobile/navigation/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { base_web_server } from '@gcMobile/components/Auth/constants'
 import { RootState } from '@gcMobile/store'
-import { formatDateToHome, goToPDFViewer, PROFILES } from '@gcMobile/util'
+import { formatCurrency, formatDateToHome, goToPDFViewer, PROFILES } from '@gcMobile/util'
 import { isEmpty } from 'lodash'
-import { getBankData, getPaymentReference } from '@gcMobile/store/RecintoBankData/api'
+import { getAdeudo, getBankData, getEquity, getPaymentReference } from '@gcMobile/store/RecintoBankData/api'
 import { getLastEdoCta } from '@gcMobile/store/EdoCta/api'
 import { EdoCuentaProps } from '@gcMobile/store/EdoCta/types'
 import { getLastRecibo } from '@gcMobile/store/Recibos/api'
@@ -45,6 +47,20 @@ const HeaderCard = (props: HomeCardProps) => {
             </View>
             {props.showBankData && (
                 <View style={[Main_Info_Body]}>
+                    <View style={[saldos_styles]}>
+                        <Text style={[Main_Body_Titles_small]}>
+                            Adeudo al día:{' '}
+                            <Text style={[{ color: props.adeudo > 0 ? colors.cherry : colors.gray }]}>
+                                {formatCurrency(props.adeudo)}
+                            </Text>
+                        </Text>
+                        <Text style={[Main_Body_Titles_small]}>
+                            Saldo a favor al día:{' '}
+                            <Text style={[{ color: props.saldo > 0 ? colors.green : colors.gray }]}>
+                                {formatCurrency(props.saldo)}
+                            </Text>
+                        </Text>
+                    </View>
                     <View style={[Main_Info_Body_Account]}>
                         <Text style={[Main_Body_Titles]}>Datos bancarios de {props.recinto}</Text>
                         <View style={[row_label]}>
@@ -155,7 +171,9 @@ export const Home = ({ navigation }: any) => {
     const { currentHouseManzana, currentHouseInstalacion, currentResidence, recintoId, currentHouseId } = useSelector(
         (state: RootState) => state.houseReducer
     )
-    const { numero_cuenta, clabe, banco, referencia } = useSelector((state: RootState) => state.RecintoBankData)
+    const { numero_cuenta, clabe, banco, referencia, adeudo, saldo } = useSelector(
+        (state: RootState) => state.RecintoBankData
+    )
     const { avisos } = useSelector((state: RootState) => state.estadoCuenta)
     const { avisos: notificaciones } = useSelector((state: RootState) => state.notificacionesReducer)
     const { recibos } = useSelector((state: RootState) => state.recibos)
@@ -168,6 +186,8 @@ export const Home = ({ navigation }: any) => {
         }
         if (currentHouseId) {
             dispatch(getPaymentReference(currentHouseId.toString()) as any)
+            dispatch(getAdeudo(currentHouseId.toString()) as any)
+            dispatch(getEquity(currentHouseId.toString()) as any)
         }
         if (userId && currentHouseId) {
             dispatch(getLastEdoCta(userId, currentHouseId.toString()) as any)
@@ -216,6 +236,8 @@ export const Home = ({ navigation }: any) => {
                     cents: referencia?.referencia_centavos || '',
                 }}
                 showBankData={[`${PROFILES.OWNER}`].includes(`${id_profile}`)}
+                adeudo={Number.parseInt(adeudo.toString(), 10)}
+                saldo={Number.parseInt(saldo.toString(), 10)}
             />
             <HomeCreateVisit window={VIEWS.CREATE_VISITA} icon="plus" />
             {[`${PROFILES.OWNER}`].includes(`${id_profile}`) && (
