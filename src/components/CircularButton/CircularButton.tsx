@@ -16,7 +16,7 @@ export type IconName = Extract<keyof typeof AntDesign.glyphMap, string>
 export default function CircularButton(props: ICircularButtonProps) {
     const navigation = useNavigation<any>()
     const openWindow = () => {
-        navigation.navigate(props.window)
+        navigation.navigate(props.window, {})
     }
     return (
         <TouchableOpacity style={props.styles} onPress={openWindow}>

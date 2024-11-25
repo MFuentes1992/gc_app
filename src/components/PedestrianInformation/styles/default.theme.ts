@@ -13,12 +13,12 @@ export const headerContainer: ViewStyle = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginBottom: '20%',
+    marginBottom: '5%',
 }
 
 export const inputStyles: TextStyle = {
     width: '100%',
-    height: '20%',
+    height: 50,
     borderColor: colors.text_subtitle_color,
     borderWidth: 1,
     marginBottom: '3%',

@@ -10,16 +10,31 @@ import { styles } from '@gcMobile/screens/HouseScreen/conts'
 import { colors } from '@gcMobile/theme/default.styles'
 import { VIEWS } from '../constants'
 
-export const Navbar = (props: { title?: string }) => {
+export const Navbar = (props: { title?: string; callback?: () => void }) => {
     const navigation = useNavigation()
     const { currentHouseManzana, currentHouseInstalacion } = useSelector((state: RootState) => state.houseReducer)
+
+    const handleBack = (route: string) => {
+        props.callback && props.callback()
+        switch (route) {
+            case '':
+                navigation.goBack()
+                break
+            case VIEWS.HOUSE_MANAGEMENT:
+                navigation.navigate({ name: route } as never)
+                break
+            default:
+                break
+        }
+    }
+
     return (
         <View style={[{ display: 'flex', flexDirection: 'column', width: '100%' }]}>
             <View style={[navbar_styles]}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => handleBack('')}>
                     <Ionicons name="return-down-back-outline" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate({ name: VIEWS.HOUSE_MANAGEMENT } as never)}>
+                <TouchableOpacity onPress={() => handleBack(VIEWS.HOUSE_MANAGEMENT)}>
                     <Text>{`${currentHouseManzana} ${currentHouseInstalacion}`}</Text>
                 </TouchableOpacity>
             </View>
@@ -34,4 +49,5 @@ export const Navbar = (props: { title?: string }) => {
 
 Navbar.defaultProps = {
     title: '',
+    callback: () => {},
 }

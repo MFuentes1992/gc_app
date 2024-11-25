@@ -20,7 +20,7 @@ export default function VisitorControlScreen({ navigation, filters }: VisitorCon
     const dispatch = useDispatch()
     const { email } = useSelector((state: RootState) => state.userReducer)
     const { visitas } = useSelector((state: RootState) => state.visitasReducer)
-    const { newVisistaQR } = useSelector((state: RootState) => state.visitasReducer)
+    const { createdQr } = useSelector((state: RootState) => state.visitasReducer)
     const { currentHouseId } = useSelector((state: RootState) => state.houseReducer)
     const [selectedFilters, setFilters] = useState<string[]>([])
 
@@ -39,7 +39,11 @@ export default function VisitorControlScreen({ navigation, filters }: VisitorCon
         } else {
             dispatch(getVisitas(email, currentHouseId) as any)
         }
-    }, [selectedFilters, newVisistaQR, currentHouseId])
+    }, [selectedFilters, createdQr, currentHouseId])
+
+    const handleOnDelete = (email: string, houseId: number) => {
+        dispatch(getVisitas(email, houseId) as any)
+    }
     return (
         <View
             style={{
@@ -72,7 +76,11 @@ export default function VisitorControlScreen({ navigation, filters }: VisitorCon
                 >
                     {visitas?.map((data: any, index: number) => (
                         <View style={{ width: '100%' }} key={data?.uniqueID}>
-                            <Card {...data} index={index} />
+                            <Card
+                                {...data}
+                                deleteCallback={() => handleOnDelete(email, currentHouseId)}
+                                index={index}
+                            />
                         </View>
                     ))}
                 </ScrollView>

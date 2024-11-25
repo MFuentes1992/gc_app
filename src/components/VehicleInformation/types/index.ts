@@ -1,11 +1,12 @@
+import { TVehicles } from '@gcMobile/store/Visitas/types'
+
 export type VehicleInformationProps = {
-	numberOfVehicles: number;
-	vehicleData: VehicleInformationState[];
-	saveInformation?: (_d: { [key: string]: string }) => void;
-	removeVehicle: (index: number) => void;
-	handleOnChange: (index: number, key: string, value: string) => void;
-};
+    vehicles: Array<TVehicles>
+    saveInformation?: (_d: { [key: string]: string }) => void
+    removeVehicle: (id: string) => void
+    handleOnChange: (id: string, key: string, value: string) => void
+}
 
 export type VehicleInformationState = {
-	[key: string]: string;
-};
+    [key: string]: string
+}

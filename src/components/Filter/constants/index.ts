@@ -58,3 +58,4 @@ export const FilterStyles = StyleSheet.create({
 })
 
 export const colorFilters = ['#5FA8D3', '#62B6CB', '#1B4965']
+export const colorAltFilters = ['#4389b2', '#4895a9', '#1c394b']

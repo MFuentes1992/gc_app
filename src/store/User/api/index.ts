@@ -3,7 +3,9 @@ import { stringTemplateAddQuery } from '@gcMobile/util'
 import { setProfileId } from '@gcMobile/store/User'
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification'
 import { ENDPOINTS } from '@gcMobile/util/urls'
-import { setLoading } from '@gcMobile/store/UI'
+import { setLoading, setOperationSuccess } from '@gcMobile/store/UI'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { LOCAL_STORAGE } from '@gcMobile/util/constants'
 
 export const getUserProfile = (email: string) => async (dispatch: any) => {
     const rawUrl = `${base_url}/users/index.php`
@@ -28,26 +30,45 @@ export const getUserProfile = (email: string) => async (dispatch: any) => {
     }
 }
 
-export const changePassword = (email: string, password: string) => async (dispatch: any) => {
+export const changePassword = (email: string, password: string, previousPassword: string) => async (dispatch: any) => {
     const url = `${base_url}${ENDPOINTS.USER.CHANGE_PASSWORD}`
     const formData = new FormData()
     formData.append('email', email)
     formData.append('newPassword', password)
+    formData.append('previousPassword', previousPassword)
     dispatch(setLoading(true))
-    const res = await fetch(url, { method: 'POST', body: formData })
-    const data = await res.json()
-    if (data.status === 'OK') {
-        Toast.show({
-            title: 'Éxito',
-            textBody: 'Contraseña actualizada',
-            type: ALERT_TYPE.SUCCESS,
-        })
-    } else {
+    try {
+        const res = await fetch(url, { method: 'POST', body: formData })
+        const data = await res.json()
+        dispatch(setLoading(false))
+        if (data.status === 'OK') {
+            dispatch(setOperationSuccess(true))
+            AsyncStorage.getItem(LOCAL_STORAGE.USER_CREDENTIALS).then((res: any) => {
+                if (res) {
+                    const data = JSON.parse(res)
+                    AsyncStorage.setItem(
+                        LOCAL_STORAGE.USER_CREDENTIALS,
+                        JSON.stringify({ ...data, email: email, password: password })
+                    )
+                }
+            })
+            Toast.show({
+                title: 'Éxito',
+                textBody: data?.message,
+                type: ALERT_TYPE.SUCCESS,
+            })
+        } else {
+            Toast.show({
+                title: 'Error',
+                textBody: data?.message || 'Error al cambiar la contraseña',
+                type: ALERT_TYPE.DANGER,
+            })
+        }
+    } catch (error) {
         Toast.show({
             title: 'Error',
-            textBody: 'Error al actualizar la contraseña',
+            textBody: 'Error al cambiar la contraseña',
             type: ALERT_TYPE.DANGER,
         })
     }
-    dispatch(setLoading(false))
 }

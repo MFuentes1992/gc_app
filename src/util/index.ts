@@ -1,4 +1,4 @@
-import { colorFilters } from '@gcMobile/components/Filter/constants'
+import { colorAltFilters, colorFilters } from '@gcMobile/components/Filter/constants'
 import { RootState } from '@gcMobile/store'
 import { useSelector } from 'react-redux'
 import Constants from 'expo-constants'
@@ -25,11 +25,14 @@ export const CANNONICAL_MONTHS: any = {
     12: 'Diciembre',
 }
 
-export const getTipoVisitaIcon = (tipo_visita: string) => {
+export const getTipoVisitaIcon = (tipo_visita: string, alt: boolean = false) => {
     const { catalogVisitas } = useSelector((state: RootState) => state.tipoVisitas)
     const findTipoVisita = catalogVisitas.find((visita) => visita.tipo_visita === tipo_visita)
-    if (findTipoVisita) {
+    if (findTipoVisita && !alt) {
         return colorFilters[Number.parseInt(findTipoVisita.id, 10) - 1]
+    }
+    if (findTipoVisita && alt) {
+        return colorAltFilters[Number.parseInt(findTipoVisita.id, 10) - 1]
     }
     return 'green'
 }
@@ -38,7 +41,11 @@ export const formatDate = (date: string) => {
     if (date.includes('T')) {
         const dateNotime = date.split('T')[0]
         const newDate = new Date(dateNotime)
-        return newDate.toLocaleDateString('es-MX')
+        return newDate.toLocaleDateString('es-MX', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        })
     }
     const newDate = new Date(date)
     return newDate.toLocaleString('es-MX')
@@ -50,6 +57,15 @@ export const plateFormat = (plate: string) => {
 
 export const formatTime = (hora: string) => {
     return hora.slice(0, 5)
+}
+
+export const dateTimeFormat = (date: string) => {
+    const sanityDate = date.replace(/[zZ]/g, '')
+    const hours = new Date(sanityDate).getHours()
+    const minutes = new Date(date).getMinutes()
+    const tweleveHour = hours > 12 ? hours - 12 : hours
+    const ampm = hours >= 12 ? 'pm' : 'am'
+    return `${tweleveHour < 10 ? '0' + tweleveHour : tweleveHour}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`
 }
 
 export const stringTemplateParser = (cadena: string, object: any) => {
@@ -64,6 +80,11 @@ export const stringTemplateAddQuery = (cadena: string, object: any) => {
     })
     cadena = cadena.slice(0, -1)
     return cadena
+}
+
+export const getCurrentHour = () => {
+    const date = new Date()
+    return `${date.getHours()}:${date.getMinutes()}`
 }
 
 // --- Push Notifications ---
@@ -230,6 +251,11 @@ export const passwordFormValidation = (form: { [key: string]: string }) => {
         errorObject['repeatNewPassword']['isSame'] = 'Las contraseñas no conciden.'
     } else {
         errorObject['repeatNewPassword']['isSame'] = ''
+    }
+    if ([form.currentPassword].includes(form.newPassword)) {
+        errorObject['newPassword']['isPrevious'] = 'La nueva contraseña no puede ser igual a la anterior.'
+    } else {
+        errorObject['newPassword']['isPrevious'] = ''
     }
     return errorObject
 }

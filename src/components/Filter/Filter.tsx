@@ -61,8 +61,8 @@ const Filter = ({ filters, handleFilters }: FilterProps) => {
                 </View>
                 <View style={FilterStyles.filterControls}>
                     <TouchableOpacity onPress={handleDrawer}>
-                        {!drawerOpen && <AntDesign name="up" size={24} color="black" />}
-                        {drawerOpen && <AntDesign name="down" size={24} color="black" />}
+                        {!drawerOpen && <AntDesign name="down" size={20} color={colors.gray} />}
+                        {drawerOpen && <AntDesign name="up" size={20} color={colors.gray} />}
                     </TouchableOpacity>
                 </View>
             </View>

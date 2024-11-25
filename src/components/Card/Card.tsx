@@ -1,288 +1,140 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
-import { cardStyles } from "./constants";
-import { colors } from "@gcMobile/theme/default.styles";
-import { getTipoVisitaIcon } from "@gcMobile/util";
-import { useNavigation } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
-import { VIEWS } from "@gcMobile/navigation/constants";
+import { View, Text, TouchableOpacity, Alert } from 'react-native'
+import React from 'react'
+import { cardStyles, popOverMenu } from './constants'
+import { colors } from '@gcMobile/theme/default.styles'
+import { dateTimeFormat, formatDate, getTipoVisitaIcon } from '@gcMobile/util'
+import { useNavigation } from '@react-navigation/native'
+import { Entypo } from '@expo/vector-icons'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+
+import { VIEWS } from '@gcMobile/navigation/constants'
+import { PopOverMenu } from '../PopOverMenu/PopOverMenu'
+import { useDispatch } from 'react-redux'
+import { deleteVisitaByUniqueId } from '@gcMobile/store/Visitas/api'
 
 export interface ICardProps {
-	nombre: string;
-	desde: string;
-	hasta: string;
-	tipo: string;
-	acceso: string;
-	avisos: string;
-	emailAutor: string;
-	tipo_visita: string;
-	uniqueID: string;
-	estado: string;
-	index: number;
+    nombre: string
+    desde: string
+    hasta: string
+    tipo: string
+    multiple_entrada: string
+    notificaciones: string
+    emailAutor: string
+    tipo_visita: string
+    uniqueID: string
+    estado: string
+    index: number
+    deleteCallback: () => void
 }
 
 export default function Card({
-	nombre,
-	desde,
-	hasta,
-	tipo,
-	acceso,
-	avisos,
-	emailAutor,
-	tipo_visita,
-	uniqueID,
-	estado,
-	index,
+    nombre,
+    desde,
+    hasta,
+    tipo,
+    multiple_entrada,
+    notificaciones,
+    emailAutor,
+    tipo_visita,
+    uniqueID,
+    estado,
+    index,
+    deleteCallback,
 }: ICardProps) {
-	const navigation = useNavigation<any>();
-	return (
-		<View style={cardStyles.container}>
-			<View style={cardStyles.row}>
-				<View
-					style={{
-						flex: 0.2,
-						flexDirection: "column",
-						borderRightWidth: 1,
-						borderColor: colors.gray,
-						marginRight: "1%",
-					}}>
-					<View
-						style={{
-							flexDirection: "column",
-							flex: 0.4,
-							alignItems: "center",
-						}}>
-						<View
-							style={{
-								width: "35%",
-								minWidth: "20%",
-								borderRadius: 50,
-								backgroundColor: getTipoVisitaIcon(tipo_visita),
-							}}>
-							<Text>&nbsp;</Text>
-						</View>
-					</View>
-					<View
-						style={{
-							flexDirection: "column",
-							alignItems: "center",
-							flex: 0.25,
-						}}>
-						<Text style={{ fontSize: 9, color: colors.darkGray }}>
-							{tipo_visita}
-						</Text>
-					</View>
-				</View>
+    const navigation = useNavigation<any>()
+    const dispatch = useDispatch()
+    const [showMenu, setOpenMenu] = React.useState<boolean>(false)
 
-				<View style={{ flexDirection: "column", flex: 1 }}>
-					<View
-						style={{
-							flexDirection: "row",
-							flex: 0.16,
-						}}>
-						<View
-							style={{
-								width: "100%",
-							}}>
-							<View
-								style={{
-									flex: 1,
-									flexDirection: "row",
-									justifyContent: "space-between",
-								}}>
-								<Text
-									style={{
-										color: colors.gray,
-										marginRight: "5%",
-										fontSize: 9,
-									}}>{`${index + 1})`}</Text>
-								<Text
-									style={{
-										color: colors.darkGray,
-										fontSize: 10,
-										textAlign: "left",
-										width: "70%",
-									}}>
-									{nombre}
-								</Text>
-								<TouchableOpacity
-									style={{
-										right: 0,
-									}}
-									onPress={() => {
-										navigation.navigate(VIEWS.QR_DETAILS, { uniqueID });
-									}}>
-									<Entypo
-										name='dots-three-vertical'
-										style={{ fontSize: 12, color: colors.gray }}
-									/>
-								</TouchableOpacity>
-							</View>
-						</View>
-					</View>
-					<View
-						style={{
-							flexDirection: "row",
-							flex: 0.16,
-						}}>
-						<View
-							style={{
-								width: "25%",
-							}}>
-							<Text style={cardStyles.descriptionText}>Desde:</Text>
-						</View>
+    const handleMenuIconPressed = (route: string) => {
+        setOpenMenu(false)
+        switch (route) {
+            case 'qrcode':
+                navigation.navigate(VIEWS.QR_DETAILS, { uniqueID })
+                break
+            case 'pencil':
+                navigation.navigate(VIEWS.CREATE_VISITA, { uniqueID })
+                break
+            case 'trash':
+                Alert.alert('Eliminar', '¿Estás seguro de eliminar esta visita?', [
+                    {
+                        text: 'Cancelar',
+                        onPress: () => {},
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Eliminar',
+                        onPress: () => dispatch(deleteVisitaByUniqueId(uniqueID, deleteCallback) as any),
+                    },
+                ])
+                break
+            default:
+                break
+        }
+    }
 
-						<View
-							style={{
-								width: "35%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{desde?.split("T")[0]}
-							</Text>
-						</View>
-						<View
-							style={{
-								width: "15%",
-							}}>
-							<Text style={cardStyles.descriptionText}>a las:</Text>
-						</View>
-						<View
-							style={{
-								width: "25%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{desde?.split("T")[1]}
-							</Text>
-						</View>
-					</View>
-					<View
-						style={{
-							flexDirection: "row",
-							flex: 0.16,
-						}}>
-						<View
-							style={{
-								width: "25%",
-							}}>
-							<Text style={cardStyles.descriptionText}>Hasta:</Text>
-						</View>
-
-						<View
-							style={{
-								width: "35%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{hasta?.split("T")[0]}
-							</Text>
-						</View>
-						<View
-							style={{
-								width: "15%",
-							}}>
-							<Text style={cardStyles.descriptionText}>a las:</Text>
-						</View>
-						<View
-							style={{
-								width: "25%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{hasta?.split("T")[1]}
-							</Text>
-						</View>
-					</View>
-					<View
-						style={{
-							flexDirection: "row",
-							flex: 0.16,
-						}}>
-						<View
-							style={{
-								width: "25%",
-							}}>
-							<Text style={cardStyles.descriptionText}>Tipo:</Text>
-						</View>
-
-						<View
-							style={{
-								width: "30%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{tipo}
-							</Text>
-						</View>
-						<View
-							style={{
-								width: "22%",
-							}}>
-							<Text style={cardStyles.descriptionText}>Acceso:</Text>
-						</View>
-						<View
-							style={{
-								width: "22%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{acceso ? `Unico` : `Multiple`}
-							</Text>
-						</View>
-					</View>
-
-					<View
-						style={{
-							flexDirection: "row",
-							flex: 0.16,
-						}}>
-						<View
-							style={{
-								width: "25%",
-							}}>
-							<Text style={cardStyles.descriptionText}>Avisos:</Text>
-						</View>
-
-						<View
-							style={{
-								width: "30%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{avisos ? `Si` : `No`}
-							</Text>
-						</View>
-						<View
-							style={{
-								width: "22%",
-							}}>
-							<Text style={cardStyles.descriptionText}>Estado:</Text>
-						</View>
-						<View
-							style={{
-								width: "22%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{estado ? `Activo` : `Vencido`}
-							</Text>
-						</View>
-					</View>
-					<View
-						style={{
-							flexDirection: "row",
-							flex: 0.16,
-						}}>
-						<View
-							style={{
-								width: "25%",
-							}}>
-							<Text style={cardStyles.descriptionText}>Autor:</Text>
-						</View>
-						<View
-							style={{
-								width: "75%",
-							}}>
-							<Text style={{ color: colors.darkGray, fontSize: 10 }}>
-								{emailAutor}
-							</Text>
-						</View>
-					</View>
-				</View>
-			</View>
-		</View>
-	);
+    return (
+        <View style={cardStyles.container}>
+            {showMenu && (
+                <PopOverMenu
+                    iconList={popOverMenu.map((item) => ({
+                        ...item,
+                        onPressed: () => handleMenuIconPressed(item.name),
+                    }))}
+                />
+            )}
+            <View style={[cardStyles.header, { backgroundColor: getTipoVisitaIcon(tipo_visita) }]}>
+                <Text
+                    style={[{ color: colors.white, fontSize: 12, fontWeight: '500' }]}
+                >{`${tipo_visita},  ${nombre}`}</Text>
+                <TouchableOpacity
+                    onPress={() => setOpenMenu(!showMenu)}
+                    style={[cardStyles.headerMenu, { backgroundColor: getTipoVisitaIcon(tipo_visita, true) }]}
+                >
+                    <Entypo name="dots-three-vertical" size={18} color={colors.white} style={{ marginLeft: '20%' }} />
+                </TouchableOpacity>
+            </View>
+            <View style={cardStyles.body}>
+                <View style={cardStyles.cardRow}>
+                    <View style={cardStyles.cardColumn}>
+                        <FontAwesome name="calendar" size={14} color={colors.gray} />
+                        <Text style={{ color: colors.gray, fontSize: 12, marginLeft: 10 }}>{`${formatDate(
+                            desde
+                        )}`}</Text>
+                    </View>
+                    <View style={cardStyles.cardColumn}>
+                        <FontAwesome5 name="clock" size={14} color={colors.gray} />
+                        <Text style={{ color: colors.gray, fontSize: 12, marginLeft: 10 }}>{`${dateTimeFormat(
+                            desde
+                        )}`}</Text>
+                    </View>
+                </View>
+                <View style={cardStyles.cardRow}>
+                    <View style={cardStyles.cardColumn}>
+                        <MaterialCommunityIcons name="boom-gate" size={18} color={colors.gray} />
+                        <Text style={{ color: colors.gray, fontSize: 12, marginLeft: 10 }}>{tipo}</Text>
+                    </View>
+                    <View style={cardStyles.cardColumn}>
+                        <FontAwesome5 name="bell" size={14} color={colors.gray} />
+                        <Text style={{ color: colors.gray, fontSize: 12, marginLeft: 10 }}>
+                            {['1'].includes(notificaciones) ? 'Sí' : 'No'}
+                        </Text>
+                    </View>
+                </View>
+                <View style={cardStyles.cardRow}>
+                    <View style={cardStyles.cardColumn}>
+                        <MaterialIcons name="login" size={14} color={colors.gray} />
+                        <Text style={{ color: colors.gray, fontSize: 12, marginLeft: 10 }}>
+                            {['1'].includes(multiple_entrada) ? 'Múltiple' : 'Único'}
+                        </Text>
+                    </View>
+                    <View style={cardStyles.cardColumn}>
+                        <Text style={{ color: colors.gray, fontSize: 10 }}>{emailAutor}</Text>
+                    </View>
+                </View>
+            </View>
+        </View>
+    )
 }
