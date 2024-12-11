@@ -579,15 +579,35 @@ export default function Form({ route, navigation }: any) {
                                 onDayPress={(day: any) => {
                                     switch (formValues['dateType']) {
                                         case 'from':
+                                            console.log('current formvalues======>', formValues.fechaIngreso)
+
+                                            console.log('day pressed ====>', day.dateString)
+                                            console.log(
+                                                `${day.dateString}T${formValues.fechaIngresoHora.toString().substring(0, 5)}:00.000`
+                                            )
+
                                             setFormValues((prev) => ({
                                                 ...prev,
-                                                fechaIngreso: `${day.dateString}T${prev.fechaIngresoHora}:00.000`,
+                                                fechaIngreso: `${day.dateString}T${prev.fechaIngresoHora.toString().substring(0, 5)}:00.000`,
                                             }))
                                             break
                                         case 'to':
+                                            console.log('current formvalues======>', formValues.fechaIngreso)
+
+                                            console.log('day pressed ====>', day.dateString)
+                                            console.log(
+                                                `${day.dateString}T${formValues.fechaSalidaHora.toString().substring(0, 5).replace(' ', '')}:00.000`.replaceAll(
+                                                    /\s/g,
+                                                    ''
+                                                )
+                                            )
                                             setFormValues((prev) => ({
                                                 ...prev,
-                                                fechaSalida: `${day.dateString}T${prev.fechaSalidaHora}:00.000`,
+                                                fechaSalida:
+                                                    `${day.dateString}T${prev.fechaSalidaHora.toString().substring(0, 5)}:00.000`.replaceAll(
+                                                        /\s/g,
+                                                        ''
+                                                    ),
                                             }))
                                             break
                                         default:
