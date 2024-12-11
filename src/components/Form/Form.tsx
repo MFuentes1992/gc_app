@@ -423,7 +423,7 @@ export default function Form({ route, navigation }: any) {
                     </View>
                     {formValues.idTipoIngreso.toString() === '1' && (
                         <Container
-                            title="Informacion del vehiculo"
+                            title="Agregar vehículo"
                             actionButton={<HeaderActionButton icon="plus-circle" onPress={handleAddVehicle} />}
                         >
                             <VehicleInformation
@@ -435,7 +435,7 @@ export default function Form({ route, navigation }: any) {
                     )}
                     {formValues.idTipoIngreso.toString() === '2' && (
                         <Container
-                            title="Agregar acompañantes"
+                            title="Agregar peatón"
                             actionButton={<HeaderActionButton icon="plus-circle" onPress={handleAddPedestrians} />}
                         >
                             <Pedestrians
